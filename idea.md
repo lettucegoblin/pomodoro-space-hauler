@@ -18,11 +18,10 @@ While keeping in line with the asyncronous nature of the pomodoro technique, The
 
 sequenceDiagram
     autonumber
-    participant B as Break
-    participant W as Work
+    participant B as Break Scene
+    participant W as Work Scene
     participant R as Route Management
     participant M as Galaxy Map
-    participant S as Ship View
 
     loop Game Loop
         
@@ -33,12 +32,10 @@ sequenceDiagram
           R->>W: Route Selected
           W->>W: Leave Planet and Begin Work
           activate W
-            W->>S: Ship Animation(Traveling)
             W->>M: Show Progress on Galaxy Map
             W->>W: 25 minutes Work on Real-World Task
           deactivate W
           W->>W: Arrive at Planet on Route
-          W->>S: Ship Animation(Idle at Planet)
           W-->>R: If Job Complete
           R->>R: Reward Player
           R->>W: Job Complete
@@ -46,6 +43,7 @@ sequenceDiagram
           W->>B: Begin Break
           
           activate B
+            B->>B: Show Idle Animation at Planet
             B->>B: 5 minutes
           deactivate B
           B->>W: Break Complete
@@ -61,7 +59,7 @@ sequenceDiagram
     - The **routes** are of **varying lengths and complexity**, with different planets to stop at. e.g., a short route might have 1-2 planets, while a long route might have 4-5 planets. Each planet represents a break interval. This is to give the player a sense of progression and variety in their tasks.
   - The player focuses on real-world tasks during this phase while the spaceship travels and mirrors their efforts.
   - The player can see the ship's progress on the galaxy map and receive **notifications** when the work phase is complete.
-  - When the ship arrives at a planet, the player's ship will idle at the planet on the galaxy map and in the ship view.
+  - When the ship arrives at a planet, the player's ship will idle at the planet on the galaxy map.
 - **Break Phase (5 minutes)**:
   - The spaceship automatically stops at planets during the break phase.
   - The player can take a break, relax, and prepare for the next work phase.
