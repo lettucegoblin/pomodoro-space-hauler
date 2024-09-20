@@ -8,7 +8,7 @@ The game is a **pomodoro-based spaceship simulator** that blends productivity wi
 
 ### Brief Mechanic Intro:
 
-The gameplay mechanic is the **pomodoro timer** and it's pairing with a **route management system**. 
+The **unique gameplay mechanic** is the **pomodoro timer** and it's pairing with a **route management system**. 
 
 While keeping in line with the asyncronous nature of the pomodoro technique, The player selects a job and the ship follows a predetermined route while they focus on real-world tasks. The game then transitions into the break phase, where the ship automatically stops at planets for "refueling."
 
