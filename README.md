@@ -1,1 +1,1 @@
-[Final Proposal](idea.md)
+[Devlog](devlog.md)
