@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://qh7wljwcx81q"]
+
+[node name="JobSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JobList" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Job" type="HBoxContainer" parent="JobList"]
+layout_mode = 2
+
+[node name="JobName" type="Label" parent="JobList/Job"]
+layout_mode = 2
+
+[node name="JobDuration" type="Label" parent="JobList/Job"]
+layout_mode = 2
+
+[node name="SelectButton" type="Button" parent="JobList/Job"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="JobList"]
+layout_mode = 2
+
+[node name="RouteMap" type="Control" parent="JobList"]
+layout_mode = 2
