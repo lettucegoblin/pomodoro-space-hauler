@@ -3,6 +3,8 @@ shader_type canvas_item;
 uniform float planet_size : hint_range(0.1, 1.0) = 1.0; // Controls the size of the planet
 uniform vec4 planet_color : source_color = vec4(0.0, 0.8, 0.4, 1.0); // RGBA color for the planet land
 uniform vec4 water_color : source_color = vec4(0.0, 0.3, 0.8, 1.0); // RGBA color for the water
+uniform vec4 shadow_color : source_color = vec4(0.0, 0.0, 0.0, 1.0); // Shadow color
+uniform float shadow_transparency : hint_range(0.0, 1.0) = 0.5; // Controls shadow transparency
 uniform sampler2D noise_texture : hint_normal; // Perlin noise texture input
 uniform float land_water_threshold : hint_range(0.0, 1.0) = 0.5; // Threshold for land/water division
 uniform vec2 noise_scale = vec2(5.0, 5.0); // Scale for the noise texture
@@ -68,20 +70,21 @@ void fragment() {
         float curved_shadow = length(shifted_uv);
         light_intensity *= mix(1.0, curved_shadow, 0.6); // Curved shadow effect
 		
-
         // Add day/night cycle based on time
-        float time_offset = sin(TIME * day_night_cycle_speed) + 1.5;
+        float time_offset = sin(TIME * day_night_cycle_speed) + 0.8;
         light_intensity += time_offset;
 		
-
         // Apply the main rim light (broad, subtle glow)
         float rim_light = smoothstep(0.0, 0.9, light_intensity) * rim_light_intensity;
 
         // Thin rim light for the bright edge, calculated only at the very outer edge of the planet
         float thin_rim = smoothstep(0.9, 1.0, dist_from_center) * thin_rim_intensity * step(0.0, light_intensity);
 
-        // Apply lighting to the final color (dark side will be shadowed, light side illuminated)
-        final_color.rgb *= clamp(light_intensity + rim_light + thin_rim, 0.0, 1.0);
+        // Blend the shadow with the final color
+        vec3 shadow_blend = mix(final_color.rgb, shadow_color.rgb, shadow_transparency * (1.0 - light_intensity));
+
+        // Apply final lighting and shadow (combine rim light and thin rim light)
+        final_color.rgb = shadow_blend + final_color.rgb * clamp(light_intensity + rim_light + thin_rim, 0.0, 1.0);
 
         COLOR = final_color; // Use the final color with lighting applied
     } else {
