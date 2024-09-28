@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://c4ba0l3547yf5"]
+
+[node name="RouteManagement" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GalaxyMap" type="Node2D" parent="."]
+
+[node name="Star" type="Sprite2D" parent="GalaxyMap"]
+
+[node name="RoutePath" type="Line2D" parent="GalaxyMap"]
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Distance" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="FuelConsumption" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="EstimatedTime" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

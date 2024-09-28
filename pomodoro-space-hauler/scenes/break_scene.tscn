@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cjboidt3ho2m8"]
+
+[node name="BreakScene" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Spaceship Idle" type="Sprite2D" parent="."]
+
+[node name="Planet" type="Sprite2D" parent="."]
+
+[node name="MouseEffects" type="GPUParticles2D" parent="."]
+
+[node name="BreakTimerDisplay" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

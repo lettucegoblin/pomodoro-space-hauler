@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://sfgkyqitv3kh"]
+
+[ext_resource type="Shader" path="res://shaders/planet.gdshader" id="1_hxsbu"]
+[ext_resource type="Texture2D" uid="uid://dl45k8c6jvwpi" path="res://icon.svg" id="2_hdclj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1nvx7"]
+shader = ExtResource("1_hxsbu")
+shader_parameter/planet_size = 1.0
+shader_parameter/planet_color = Color(0.559081, 0.70282, 0.692366, 1)
+
+[node name="Planet" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_1nvx7")
+texture = ExtResource("2_hdclj")

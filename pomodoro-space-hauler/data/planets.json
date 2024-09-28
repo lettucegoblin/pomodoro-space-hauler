@@ -1,0 +1,160 @@
+{
+  "planets": [
+	{
+	  "name": "Zelora Prime",
+	  "cluster": "Andromeda",
+	  "population": 120000000,
+	  "resources": ["Lithium", "Iridium"],
+	  "climate": "Temperate",
+	  "government": "Democracy",
+	  "special_feature": "Floating Cities",
+	  "hazards": ["Radiation Storms"],
+	  "trade_goods": ["Microchips", "Luxury Goods"],
+	  "faction_control": "Galactic Union"
+	},
+	{
+	  "name": "Draconis IV",
+	  "cluster": "Orion",
+	  "population": 85000000,
+	  "resources": ["Helium-3", "Gold"],
+	  "climate": "Frozen",
+	  "government": "Monarchy",
+	  "special_feature": "Underground Civilizations",
+	  "hazards": ["Ice Quakes"],
+	  "trade_goods": ["Raw Metals", "Starship Fuel"],
+	  "faction_control": "Draconian Empire"
+	},
+	{
+	  "name": "Xenthara",
+	  "cluster": "Milky Way",
+	  "population": 300000000,
+	  "resources": ["Oxygen", "Water"],
+	  "climate": "Arid",
+	  "government": "Corporate",
+	  "special_feature": "Desert Spires",
+	  "hazards": ["Sandstorms", "Pirates"],
+	  "trade_goods": ["Water", "Construction Materials"],
+	  "faction_control": "Xenthara Holdings"
+	},
+	{
+	  "name": "Voltharion",
+	  "cluster": "Pegasus",
+	  "population": 9500000,
+	  "resources": ["Uranium", "Platinum"],
+	  "climate": "Toxic",
+	  "government": "Anarchy",
+	  "special_feature": "Asteroid Rings",
+	  "hazards": ["Meteor Showers"],
+	  "trade_goods": ["Raw Uranium", "Exotic Pets"],
+	  "faction_control": "Outlaw Raiders"
+	},
+	{
+	  "name": "Calystra",
+	  "cluster": "Sagittarius",
+	  "population": 50000000,
+	  "resources": ["Rare Earth Metals", "Solar Energy"],
+	  "climate": "Temperate",
+	  "government": "Democracy",
+	  "special_feature": "Bioluminescent Forests",
+	  "hazards": ["Alien Wildlife"],
+	  "trade_goods": ["Advanced Electronics", "Medicinal Plants"],
+	  "faction_control": "United Federation"
+	},
+	{
+	  "name": "Nebulon V",
+	  "cluster": "Centauri",
+	  "population": 240000000,
+	  "resources": ["Hydrogen", "Titanium"],
+	  "climate": "Oceanic",
+	  "government": "Technocracy",
+	  "special_feature": "Underwater Cities",
+	  "hazards": ["Tidal Waves", "Pirate Activity"],
+	  "trade_goods": ["Starship Parts", "Organic Fuel"],
+	  "faction_control": "Centauri Confederation"
+	},
+	{
+	  "name": "Argos",
+	  "cluster": "Perseus",
+	  "population": 6300000,
+	  "resources": ["Silicon", "Copper"],
+	  "climate": "Desert",
+	  "government": "Oligarchy",
+	  "special_feature": "Ancient Ruins",
+	  "hazards": ["Sandstorms", "Pirates"],
+	  "trade_goods": ["Minerals", "Alien Artifacts"],
+	  "faction_control": "The Argos Syndicate"
+	},
+	{
+	  "name": "Titanis",
+	  "cluster": "Orion",
+	  "population": 75000000,
+	  "resources": ["Platinum", "Silica"],
+	  "climate": "Frozen",
+	  "government": "Republic",
+	  "special_feature": "Crystal Caves",
+	  "hazards": ["Glacier Shifts", "Radiation"],
+	  "trade_goods": ["Crystals", "Energy Weapons"],
+	  "faction_control": "Titanis Republic"
+	},
+	{
+	  "name": "Vorath",
+	  "cluster": "Centauri",
+	  "population": 180000000,
+	  "resources": ["Graphene", "Water"],
+	  "climate": "Tropical",
+	  "government": "Federation",
+	  "special_feature": "Volcanic Archipelagos",
+	  "hazards": ["Volcanic Eruptions"],
+	  "trade_goods": ["Fruit", "Medicinal Plants"],
+	  "faction_control": "Centauri Federation"
+	},
+	{
+	  "name": "Ecliptus",
+	  "cluster": "Andromeda",
+	  "population": 4200000,
+	  "resources": ["Antimatter", "Dark Matter"],
+	  "climate": "Toxic",
+	  "government": "Corporate State",
+	  "special_feature": "Floating Research Stations",
+	  "hazards": ["Space Anomalies"],
+	  "trade_goods": ["Advanced Research Data", "Antimatter Cells"],
+	  "faction_control": "The Ecliptic Syndicate"
+	},
+	{
+	  "name": "Kryphos",
+	  "cluster": "Pegasus",
+	  "population": 12000000,
+	  "resources": ["Iridium", "Carbon"],
+	  "climate": "Temperate",
+	  "government": "Monarchy",
+	  "special_feature": "Forest Canopy Cities",
+	  "hazards": ["Lightning Storms"],
+	  "trade_goods": ["Rare Woods", "Exotic Beverages"],
+	  "faction_control": "Kryphos Monarchy"
+	},
+	{
+	  "name": "Zephyros",
+	  "cluster": "Sagittarius",
+	  "population": 95000000,
+	  "resources": ["Platinum", "Solar Energy"],
+	  "climate": "Windy",
+	  "government": "Republic",
+	  "special_feature": "Sky Platforms",
+	  "hazards": ["Extreme Winds", "Solar Flares"],
+	  "trade_goods": ["Solar Panels", "Wind Energy Turbines"],
+	  "faction_control": "Solaris Republic"
+	},
+	{
+	  "name": "Xerith",
+	  "cluster": "Vulpecula",
+	  "population": 320000000,
+	  "resources": ["Unobtainium", "Diamond"],
+	  "climate": "Lava",
+	  "government": "Corporate Oligarchy",
+	  "special_feature": "Lava Harvesting Plants",
+	  "hazards": ["Lava Flows", "Pirates"],
+	  "trade_goods": ["Unobtainium Alloys", "Luxury Crystals"],
+	  "faction_control": "Xerith Conglomerate"
+	}
+  ]
+}
