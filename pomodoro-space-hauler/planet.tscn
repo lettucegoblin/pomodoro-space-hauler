@@ -18,11 +18,12 @@ shader_parameter/planet_color = Color(0.704306, 0.64017, 0.755593, 1)
 shader_parameter/water_color = Color(0.445138, 0.272316, 0.519658, 1)
 shader_parameter/land_water_threshold = 0.5
 shader_parameter/noise_scale = Vector2(1, 1)
-shader_parameter/scroll_direction = Vector2(-1, 0)
-shader_parameter/scroll_speed = 0.1
-shader_parameter/light_angle = 183.051
-shader_parameter/day_night_cycle_speed = 0.4
+shader_parameter/scroll_direction = Vector2(1, 0)
+shader_parameter/scroll_speed = 0.2
+shader_parameter/light_angle = 180.0
+shader_parameter/day_night_cycle_speed = 1.0
 shader_parameter/rim_light_intensity = 0.0
+shader_parameter/thin_rim_intensity = 0.2
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_fw6r3")
 
 [node name="Planet" type="Node2D"]

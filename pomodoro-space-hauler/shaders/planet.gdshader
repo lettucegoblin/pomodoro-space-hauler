@@ -7,12 +7,13 @@ uniform sampler2D noise_texture : hint_normal; // Perlin noise texture input
 uniform float land_water_threshold : hint_range(0.0, 1.0) = 0.5; // Threshold for land/water division
 uniform vec2 noise_scale = vec2(5.0, 5.0); // Scale for the noise texture
 uniform vec2 scroll_direction = vec2(1.0, 0.0); // Direction to move the texture (1, 0) for right, (-1, 0) for left
-uniform float scroll_speed : hint_range(0.0, 10.0) = 1.0; // Speed of the texture movement
+uniform float scroll_speed : hint_range(0.01, 0.2) = 0.1; // Speed of the texture movement
 
 // Lighting parameters
-uniform float light_angle : hint_range(0.0, 360.0) = 0.0; // Light direction angle in degrees
-uniform float day_night_cycle_speed : hint_range(0.0, 10.0) = 1.0; // Speed of day/night cycle
+uniform float light_angle : hint_range(140.0, 220.0) = 180.0; // Light direction angle in degrees
+uniform float day_night_cycle_speed : hint_range(0.2, 1.0) = 0.6; // Speed of day/night cycle
 uniform float rim_light_intensity : hint_range(0.0, 1.0) = 0.8; // Intensity of the rim light
+uniform float thin_rim_intensity : hint_range(0.0, 0.2) = 0.1; // Intensity of the thin rim light
 
 // Helper function to shift the UV and avoid calculations directly at the origin
 vec2 shift_uv(vec2 uv, float offset) {
@@ -66,16 +67,21 @@ void fragment() {
         // Apply a curvature effect, but avoid issues at the origin by using shifted UVs
         float curved_shadow = length(shifted_uv);
         light_intensity *= mix(1.0, curved_shadow, 0.6); // Curved shadow effect
+		
 
         // Add day/night cycle based on time
         float time_offset = sin(TIME * day_night_cycle_speed) + 1.5;
         light_intensity += time_offset;
+		
 
-        // Apply rim light by softening the shadow edges and creating a light wrap effect
+        // Apply the main rim light (broad, subtle glow)
         float rim_light = smoothstep(0.0, 0.9, light_intensity) * rim_light_intensity;
 
+        // Thin rim light for the bright edge, calculated only at the very outer edge of the planet
+        float thin_rim = smoothstep(0.9, 1.0, dist_from_center) * thin_rim_intensity * step(0.0, light_intensity);
+
         // Apply lighting to the final color (dark side will be shadowed, light side illuminated)
-        final_color.rgb *= clamp(light_intensity + rim_light, 0.0, 1.0);
+        final_color.rgb *= clamp(light_intensity + rim_light + thin_rim, 0.0, 1.0);
 
         COLOR = final_color; // Use the final color with lighting applied
     } else {
