@@ -1,12 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://sfgkyqitv3kh"]
+[gd_scene load_steps=6 format=3 uid="uid://sfgkyqitv3kh"]
 
 [ext_resource type="Shader" path="res://shaders/planet.gdshader" id="1_hxsbu"]
 [ext_resource type="Texture2D" uid="uid://dl45k8c6jvwpi" path="res://icon.svg" id="2_hdclj"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_isg10"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fw6r3"]
+seamless = true
+noise = SubResource("FastNoiseLite_isg10")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1nvx7"]
 shader = ExtResource("1_hxsbu")
 shader_parameter/planet_size = 1.0
-shader_parameter/planet_color = Color(0.559081, 0.70282, 0.692366, 1)
+shader_parameter/planet_color = Color(0.421764, 0.73552, 0.697367, 1)
+shader_parameter/water_color = Color(0, 0.349344, 0.67663, 1)
+shader_parameter/land_water_threshold = 0.5
+shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_fw6r3")
 
 [node name="Planet" type="Node2D"]
 
