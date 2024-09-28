@@ -9,6 +9,16 @@ uniform vec2 noise_scale = vec2(5.0, 5.0); // Scale for the noise texture
 uniform vec2 scroll_direction = vec2(1.0, 0.0); // Direction to move the texture (1, 0) for right, (-1, 0) for left
 uniform float scroll_speed : hint_range(0.0, 10.0) = 1.0; // Speed of the texture movement
 
+// Lighting parameters
+uniform float light_angle : hint_range(0.0, 360.0) = 0.0; // Light direction angle in degrees
+uniform float day_night_cycle_speed : hint_range(0.0, 10.0) = 1.0; // Speed of day/night cycle
+uniform float rim_light_intensity : hint_range(0.0, 1.0) = 0.8; // Intensity of the rim light
+
+// Helper function to shift the UV and avoid calculations directly at the origin
+vec2 shift_uv(vec2 uv, float offset) {
+    return uv + vec2(offset); // Shift the UV away from the origin
+}
+
 void fragment() {
     // UV coordinates to center the circle
     vec2 uv = UV;
@@ -22,11 +32,14 @@ void fragment() {
 
     // Draw a circle: inside the radius is the planet, outside is transparent
     if (dist_from_center < radius) {
-        // Convert the normalized UV coordinates back into [0, 1] range for texture sampling
-        vec2 tex_uv = (uv + 1.0) * 0.5;
+        // Shift UV coordinates to avoid issues at origin (0, 0)
+        vec2 shifted_uv = shift_uv(uv, 1.0); // Small offset to avoid singularity at the origin
+
+        // Convert the normalized shifted UV coordinates back into [0, 1] range for texture sampling
+        vec2 tex_uv = (shifted_uv + 1.0) * 0.5;
 
         // Apply quadratic warp to the x-coordinate based on the equation x^2 / 100
-        tex_uv.y += pow(uv.x + 0.3, 2.0) / 10.0;
+        tex_uv.y += pow(shifted_uv.x + 0.3, 2.0) / 10.0;
 
         // Add scrolling based on direction and time
         float offset = TIME * scroll_speed;
@@ -41,7 +54,30 @@ void fragment() {
         // Determine whether the area is land or water based on the threshold
         vec4 final_color = mix(water_color, planet_color, step(land_water_threshold, noise_value));
 
-        COLOR = final_color; // Use the final color based on noise
+        // Lighting calculations
+        // Convert light_angle from degrees to radians for trigonometric functions
+        float light_angle_rad = radians(light_angle);
+        // Create a light direction vector using cosine and sine of the angle
+        vec2 light_dir = vec2(cos(light_angle_rad), sin(light_angle_rad));
+
+        // Calculate spherical lighting intensity
+        float light_intensity = dot(normalize(shifted_uv), light_dir);
+        
+        // Apply a curvature effect, but avoid issues at the origin by using shifted UVs
+        float curved_shadow = length(shifted_uv);
+        light_intensity *= mix(1.0, curved_shadow, 0.6); // Curved shadow effect
+
+        // Add day/night cycle based on time
+        float time_offset = sin(TIME * day_night_cycle_speed) + 1.5;
+        light_intensity += time_offset;
+
+        // Apply rim light by softening the shadow edges and creating a light wrap effect
+        float rim_light = smoothstep(0.0, 0.9, light_intensity) * rim_light_intensity;
+
+        // Apply lighting to the final color (dark side will be shadowed, light side illuminated)
+        final_color.rgb *= clamp(light_intensity + rim_light, 0.0, 1.0);
+
+        COLOR = final_color; // Use the final color with lighting applied
     } else {
         discard; // Transparent outside the circle
     }
