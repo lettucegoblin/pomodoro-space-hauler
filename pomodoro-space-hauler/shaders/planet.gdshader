@@ -7,7 +7,7 @@ uniform vec4 shadow_color : source_color = vec4(0.0, 0.0, 0.0, 1.0); // Shadow c
 uniform float shadow_transparency : hint_range(0.0, 1.0) = 0.5; // Controls shadow transparency
 uniform sampler2D noise_texture : hint_normal; // Perlin noise texture input
 uniform float land_water_threshold : hint_range(0.0, 1.0) = 0.5; // Threshold for land/water division
-uniform vec2 noise_scale = vec2(5.0, 5.0); // Scale for the noise texture
+uniform vec2 noise_scale = vec2(1.0, 1.0); // Scale for the noise texture
 uniform vec2 scroll_direction = vec2(1.0, 0.0); // Direction to move the texture (1, 0) for right, (-1, 0) for left
 uniform float scroll_speed : hint_range(0.01, 0.2) = 0.1; // Speed of the texture movement
 
