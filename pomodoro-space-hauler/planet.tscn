@@ -17,6 +17,8 @@ shader_parameter/planet_color = Color(0.421764, 0.73552, 0.697367, 1)
 shader_parameter/water_color = Color(0, 0.349344, 0.67663, 1)
 shader_parameter/land_water_threshold = 0.5
 shader_parameter/noise_scale = Vector2(1, 1)
+shader_parameter/scroll_direction = Vector2(-1, 0)
+shader_parameter/scroll_speed = 0.1
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_fw6r3")
 
 [node name="Planet" type="Node2D"]

@@ -6,6 +6,8 @@ uniform vec4 water_color : source_color = vec4(0.0, 0.3, 0.8, 1.0); // RGBA colo
 uniform sampler2D noise_texture : hint_normal; // Perlin noise texture input
 uniform float land_water_threshold : hint_range(0.0, 1.0) = 0.5; // Threshold for land/water division
 uniform vec2 noise_scale = vec2(5.0, 5.0); // Scale for the noise texture
+uniform vec2 scroll_direction = vec2(1.0, 0.0); // Direction to move the texture (1, 0) for right, (-1, 0) for left
+uniform float scroll_speed : hint_range(0.0, 10.0) = 1.0; // Speed of the texture movement
 
 void fragment() {
     // UV coordinates to center the circle
@@ -22,6 +24,16 @@ void fragment() {
     if (dist_from_center < radius) {
         // Convert the normalized UV coordinates back into [0, 1] range for texture sampling
         vec2 tex_uv = (uv + 1.0) * 0.5;
+
+        // Apply quadratic warp to the x-coordinate based on the equation x^2 / 100
+        tex_uv.y += pow(uv.x + 0.3, 2.0) / 10.0;
+
+        // Add scrolling based on direction and time
+        float offset = TIME * scroll_speed;
+        tex_uv += scroll_direction * offset;
+
+        // Wrap the UV coordinates to keep them within [0, 1]
+        tex_uv = fract(tex_uv);
 
         // Sample the noise texture and scale UVs to control how the noise looks
         float noise_value = texture(noise_texture, tex_uv * noise_scale).r;
