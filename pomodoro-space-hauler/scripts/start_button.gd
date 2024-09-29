@@ -16,4 +16,4 @@ func _on_pressed() -> void:
 	start()
 	
 func start() -> void:
-	get_tree().change_scene_to_file("res://scenes/job_selection.tscn")
+	get_tree().change_scene_to_file("res://scenes/work_scene.tscn")

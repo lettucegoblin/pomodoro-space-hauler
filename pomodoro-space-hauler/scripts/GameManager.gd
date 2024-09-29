@@ -18,7 +18,7 @@ var time_remaining = 0
 var current_interval = WORK_INTERVAL
 var total_cycles = 0
 var completed_cycles = 0
-var routes_manager = null
+@export var routes_manager = null
 
 func _ready():
 	# Initialize the routes manager

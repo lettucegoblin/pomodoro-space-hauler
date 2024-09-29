@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj0b23ghevl7g"]
+
+[ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_gdpnm"]
+
+[node name="WorkScene" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Spaceship" type="Sprite2D" parent="."]
+
+[node name="galaxy_map" parent="." instance=ExtResource("1_gdpnm")]
+
+[node name="RouteMap" type="Node2D" parent="."]
+
+[node name="RouteLine" type="Line2D" parent="RouteMap"]
+
+[node name="Planets" type="Node" parent="RouteMap"]
+
+[node name="Planet" type="Sprite2D" parent="RouteMap/Planets"]
+
+[node name="TimerDisplay" type="Label" parent="."]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Notification" type="Popup" parent="."]

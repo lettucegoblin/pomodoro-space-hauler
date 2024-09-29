@@ -1,24 +1,38 @@
-[gd_scene format=3 uid="uid://cj0b23ghevl7g"]
+[gd_scene load_steps=4 format=3 uid="uid://cj0b23ghevl7g"]
 
-[node name="WorkScene" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_gdpnm"]
+[ext_resource type="PackedScene" uid="uid://dktwhn2ivy0nr" path="res://scenes/space_ship.tscn" id="2_bd3kr"]
+[ext_resource type="PackedScene" uid="uid://bj85ck3km0lll" path="res://scenes/work_ui.tscn" id="3_yrxka"]
+
+[node name="WorkScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Spaceship" type="Sprite2D" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
 
-[node name="RouteMap" type="Node2D" parent="."]
+[node name="galaxy_map" parent="Node2D" instance=ExtResource("1_gdpnm")]
 
-[node name="RouteLine" type="Line2D" parent="RouteMap"]
+[node name="RouteMap" type="Node2D" parent="Node2D"]
 
-[node name="Planets" type="Node" parent="RouteMap"]
+[node name="RouteLine" type="Line2D" parent="Node2D/RouteMap"]
 
-[node name="Planet" type="Sprite2D" parent="RouteMap/Planets"]
+[node name="Planets" type="Node" parent="Node2D/RouteMap"]
 
-[node name="TimerDisplay" type="Label" parent="."]
-unique_name_in_owner = true
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="Planet" type="Sprite2D" parent="Node2D/RouteMap/Planets"]
+
+[node name="space_ship" parent="Node2D" instance=ExtResource("2_bd3kr")]
+scale = Vector2(0.5, 0.5)
 
 [node name="Notification" type="Popup" parent="."]
+
+[node name="WorkUI" parent="." instance=ExtResource("3_yrxka")]
+layout_mode = 1

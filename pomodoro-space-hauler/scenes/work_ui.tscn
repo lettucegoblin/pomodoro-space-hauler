@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://bj85ck3km0lll"]
+
+[ext_resource type="LabelSettings" uid="uid://cxycfsfvncgdx" path="res://LabelSettings/Timer.tres" id="1_rm3r7"]
+[ext_resource type="LabelSettings" uid="uid://biopj888teyjp" path="res://LabelSettings/Work_Details.tres" id="2_3xbik"]
+
+[sub_resource type="Theme" id="Theme_exxuh"]
+
+[node name="WorkUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TimerDisplay" type="Label" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "1234"
+label_settings = ExtResource("1_rm3r7")
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Details:"
+label_settings = ExtResource("2_3xbik")
+
+[node name="Panel" type="Panel" parent="VBoxContainer/Label"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_exxuh")

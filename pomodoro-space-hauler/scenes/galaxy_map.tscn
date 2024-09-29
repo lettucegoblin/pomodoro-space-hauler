@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b10uwspyrndjq"]
+
+[ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_pc542"]
+
+[node name="galaxy_map" type="Node2D"]
+script = ExtResource("1_pc542")
+
+[node name="planets" type="Node" parent="."]
+unique_name_in_owner = true
