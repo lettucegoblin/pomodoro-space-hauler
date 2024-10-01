@@ -1,14 +1,55 @@
-[gd_scene load_steps=6 format=3 uid="uid://dktwhn2ivy0nr"]
+[gd_scene load_steps=11 format=3 uid="uid://dktwhn2ivy0nr"]
 
 [ext_resource type="Texture2D" uid="uid://cxiepbha4viu0" path="res://assets/spaceship.png" id="1_0xppf"]
 [ext_resource type="Texture2D" uid="uid://bvfpxbhfkk754" path="res://assets/exhaust.png" id="1_4dl2x"]
+[ext_resource type="Script" path="res://scripts/space_ship.gd" id="1_7xpev"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rgbfo"]
+lifetime_randomness = 0.63
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.05
+direction = Vector3(-1, 0, 0)
+spread = 13.53
+initial_velocity_min = 345.86
+initial_velocity_max = 496.24
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 3.0
+color = Color(0.929436, 0.788421, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_msm7d"]
+lifetime_randomness = 0.63
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector3(-1, 0, 0)
+spread = 13.0
+initial_velocity_min = 345.86
+initial_velocity_max = 496.24
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color = Color(0.929436, 0.788421, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dcn2w"]
+lifetime_randomness = 0.63
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 20.0
+direction = Vector3(-1, 0, 0)
+spread = 13.53
+initial_velocity_min = 345.86
+initial_velocity_max = 496.24
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+color = Color(0.929436, 0.788421, 1, 1)
 
 [sub_resource type="Animation" id="Animation_8yrvb"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("ship_transform:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -20,7 +61,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
+tracks/1/path = NodePath("ship_transform:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -36,19 +77,19 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("ship_transform:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.9, 1.06667),
-"transitions": PackedFloat32Array(1, 6.06286, 0.535887),
+"times": PackedFloat32Array(0, 0.566667, 0.966667),
+"transitions": PackedFloat32Array(1, 1.93187, 0.68302),
 "update": 0,
 "values": [Vector2(41, 62), Vector2(41, 72), Vector2(41, 62)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
+tracks/1/path = NodePath("ship_transform:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -58,69 +99,79 @@ tracks/1/keys = {
 "values": [0.0, 0.0523599, 0.0]
 }
 
+[sub_resource type="Animation" id="Animation_p7war"]
+resource_name = "break_cycle"
+length = 3.0
+step = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship_transform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.06686, 1.67284, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(41, 62), Vector2(551, 137), Vector2(827.532, 115.145), Vector2(1500, 62)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship_transform:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2717, 2.99575),
+"transitions": PackedFloat32Array(1, 0.34151, 3.13834),
+"update": 0,
+"values": [0.0, 0.123918, -0.0523599]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bbk8t"]
 _data = {
 "RESET": SubResource("Animation_8yrvb"),
+"break_cycle": SubResource("Animation_p7war"),
 "ship_shake": SubResource("Animation_mbkv2")
 }
 
-[node name="space_ship1" type="Node2D"]
+[node name="space_ship" type="Node2D"]
+position = Vector2(41, 62)
+script = ExtResource("1_7xpev")
+
+[node name="ship_transform" type="Node2D" parent="."]
 position = Vector2(41, 62)
 
-[node name="space_ship" type="Node2D" parent="."]
-
-[node name="CenterEngine" type="CPUParticles2D" parent="space_ship"]
+[node name="CenterEngine" type="GPUParticles2D" parent="ship_transform"]
 position = Vector2(-197, -46)
 amount = 16
+process_material = SubResource("ParticleProcessMaterial_rgbfo")
+texture = ExtResource("1_4dl2x")
 lifetime = 2.0
 explosiveness = 0.11
-lifetime_randomness = 0.63
-texture = ExtResource("1_4dl2x")
-emission_shape = 1
-emission_sphere_radius = 50.05
-direction = Vector2(-1, 0)
-spread = 13.53
-gravity = Vector2(0, 0)
-initial_velocity_min = 345.86
-initial_velocity_max = 496.24
-scale_amount_min = 2.0
-scale_amount_max = 3.0
-color = Color(0.929436, 0.788421, 1, 1)
+fixed_fps = 0
+draw_order = 0
 
-[node name="BottomEngine" type="CPUParticles2D" parent="space_ship"]
+[node name="BottomEngine" type="GPUParticles2D" parent="ship_transform"]
 position = Vector2(-194, 35)
 amount = 20
+process_material = SubResource("ParticleProcessMaterial_msm7d")
+texture = ExtResource("1_4dl2x")
 lifetime = 2.0
 explosiveness = 0.11
-lifetime_randomness = 0.63
-texture = ExtResource("1_4dl2x")
-emission_shape = 1
-emission_sphere_radius = 20.0
-direction = Vector2(-1, 0)
-spread = 13.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 345.86
-initial_velocity_max = 496.24
-scale_amount_max = 2.0
-color = Color(0.929436, 0.788421, 1, 1)
+fixed_fps = 0
+draw_order = 0
 
-[node name="TopEngine" type="CPUParticles2D" parent="space_ship"]
+[node name="TopEngine" type="GPUParticles2D" parent="ship_transform"]
 position = Vector2(-191, -133)
+process_material = SubResource("ParticleProcessMaterial_dcn2w")
+texture = ExtResource("1_4dl2x")
 lifetime = 2.0
 explosiveness = 0.11
-lifetime_randomness = 0.63
-texture = ExtResource("1_4dl2x")
-emission_shape = 1
-emission_sphere_radius = 20.0
-direction = Vector2(-1, 0)
-spread = 13.53
-gravity = Vector2(0, 0)
-initial_velocity_min = 345.86
-initial_velocity_max = 496.24
-scale_amount_max = 2.0
-color = Color(0.929436, 0.788421, 1, 1)
+fixed_fps = 0
+draw_order = 0
 
-[node name="ShipSprite2D" type="Sprite2D" parent="space_ship"]
+[node name="ShipSprite2D" type="Sprite2D" parent="ship_transform"]
 position = Vector2(-46, -40)
 rotation = 0.53058
 scale = Vector2(0.493138, 0.493138)

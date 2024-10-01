@@ -1,10 +1,17 @@
-[gd_scene format=3 uid="uid://cjboidt3ho2m8"]
+[gd_scene load_steps=2 format=3 uid="uid://cjboidt3ho2m8"]
 
-[node name="BreakScene" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://derc7oreecbi5" path="res://scenes/space_background.tscn" id="1_g4f3s"]
 
-[node name="Background" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="BreakScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SpaceBackground" parent="." instance=ExtResource("1_g4f3s")]
+layout_mode = 1
 
 [node name="Spaceship Idle" type="Sprite2D" parent="."]
 
@@ -13,5 +20,6 @@ offset_bottom = 40.0
 [node name="MouseEffects" type="GPUParticles2D" parent="."]
 
 [node name="BreakTimerDisplay" type="Label" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0

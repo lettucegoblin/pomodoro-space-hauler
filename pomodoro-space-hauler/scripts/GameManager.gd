@@ -9,6 +9,9 @@ signal job_completed
 # Constants for work and break intervals
 const WORK_INTERVAL = 25
 const BREAK_INTERVAL = 5
+const BREAK_SCENE = "res://scenes/break_scene.tscn"
+const WORK_SCENE = "res://scenes/work_scene.tscn"
+const JOB_COMPLETE_SCENE = "res://scenes/job_complete.tscn"
 
 # Variables to track game state
 var current_job = null
@@ -18,7 +21,11 @@ var time_remaining = 0
 var current_interval = WORK_INTERVAL
 var total_cycles = 0
 var completed_cycles = 0
-@export var routes_manager = null
+var routes_manager = null
+
+
+# Probably dont need to export with a headless script but whatever
+@export var debug : bool = true
 
 func _ready():
 	# Initialize the routes manager
@@ -28,6 +35,13 @@ func _ready():
 
 	# You could refresh routes at the start or during specific actions
 	routes_manager.refresh_routes()
+	start_timer_work()
+
+func start_timer_work():
+	current_interval = WORK_INTERVAL
+	total_cycles = 2
+	time_remaining = WORK_INTERVAL * 60
+	timer_running = true # TODO: Have a proper start/stop
 
 
 # Example handler for when routes are updated (optional)
@@ -56,26 +70,28 @@ func complete_cycle():
 	# Handle completion of work/break cycle
 	if current_interval == WORK_INTERVAL:
 		current_interval = BREAK_INTERVAL
-		emit_signal("break_cycle_started", current_job)
+		emit_signal("break_cycle_started", BREAK_SCENE)
 	else:
 		completed_cycles += 1
 		current_interval = WORK_INTERVAL
-		emit_signal("work_cycle_started", current_job)
+		emit_signal("work_cycle_started", WORK_SCENE)
 
 	time_remaining = current_interval * 60
 
 	# If the job is completed, emit a job completed signal
 	if completed_cycles >= total_cycles:
-		emit_signal("job_completed", current_job)
+		emit_signal("job_completed", JOB_COMPLETE_SCENE)
 		timer_running = false
 		# Optionally, transition to a "job complete" scene or return to the job selection screen
-		transition_to_scene("res://scenes/job_complete.tscn")
+		#transition_to_scene("res://scenes/job_complete.tscn")
 	else:
 		# Transition to the appropriate scene based on the interval
 		if current_interval == WORK_INTERVAL:
-			transition_to_scene("res://scenes/work_scene.tscn")
+			emit_signal("work_cycle_started", WORK_SCENE)
+			#transition_to_scene("res://scenes/work_scene.tscn")
 		else:
-			transition_to_scene("res://scenes/break_scene.tscn")
+			emit_signal("break_cycle_started", BREAK_SCENE)
+			#transition_to_scene("res://scenes/break_scene.tscn")
 
 func get_current_route():
 	# Return the current route data
@@ -83,7 +99,7 @@ func get_current_route():
 
 func transition_to_scene(scene_name):
 	# Transition to the specified scene
-	get_tree().change_scene(scene_name)
+	get_tree().change_scene_to_file(scene_name)
 
 func pause_timer():
 	# Pause the timer
@@ -120,8 +136,6 @@ func load_game_state():
 			completed_cycles = save_data.completed_cycles
 		file.close()
 
-
-
 func _process(delta):
 	# Update the timer if it is running
 	if timer_running:
@@ -131,3 +145,7 @@ func _process(delta):
 		if time_remaining <= 0:
 			timer_running = false
 			complete_cycle()
+
+func set_time_remaining(time: int):
+	time_remaining = time
+	emit_signal("timer_updated", time_remaining)

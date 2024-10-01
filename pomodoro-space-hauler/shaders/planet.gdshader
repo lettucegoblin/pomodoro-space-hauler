@@ -41,7 +41,7 @@ void fragment() {
         // Convert the normalized shifted UV coordinates back into [0, 1] range for texture sampling
         vec2 tex_uv = (shifted_uv + 1.0) * 0.5;
 
-        // Apply quadratic warp to the x-coordinate based on the equation x^2 / 100
+        // Apply quadratic warp to the x-coordinate based on the equation x^2 / 10
         tex_uv.y += pow(shifted_uv.x + 0.3, 2.0) / 10.0;
 
         // Add scrolling based on direction and time
@@ -65,15 +65,15 @@ void fragment() {
 
         // Calculate spherical lighting intensity
         float light_intensity = dot(normalize(shifted_uv), light_dir);
-        
+
         // Apply a curvature effect, but avoid issues at the origin by using shifted UVs
         float curved_shadow = length(shifted_uv);
         light_intensity *= mix(1.0, curved_shadow, 0.6); // Curved shadow effect
-		
+
         // Add day/night cycle based on time
         float time_offset = sin(TIME * day_night_cycle_speed) + 0.8;
         light_intensity += time_offset;
-		
+
         // Apply the main rim light (broad, subtle glow)
         float rim_light = smoothstep(0.0, 0.9, light_intensity) * rim_light_intensity;
 

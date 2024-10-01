@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbc0tyi5in6s3"]
+
+[ext_resource type="Shader" path="res://shaders/pixel_background.gdshader" id="1_5jv5i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jv204"]
+shader = ExtResource("1_5jv5i")
+shader_parameter/threshold = 0.5
+shader_parameter/step_width = 10.0
+
+[sub_resource type="Gradient" id="Gradient_m5d0k"]
+offsets = PackedFloat32Array(0, 0.498371, 1)
+colors = PackedColorArray(0.937255, 0.721569, 0.729412, 1, 0.629771, 0.721505, 0.827461, 1, 0.305882, 0.278431, 0.396078, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7pi1m"]
+gradient = SubResource("Gradient_m5d0k")
+fill_to = Vector2(0, 1)
+
+[node name="Background" type="TextureRect"]
+material = SubResource("ShaderMaterial_jv204")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_7pi1m")

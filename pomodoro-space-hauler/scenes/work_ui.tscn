@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bj85ck3km0lll"]
+[gd_scene load_steps=6 format=3 uid="uid://bj85ck3km0lll"]
 
+[ext_resource type="Script" path="res://scripts/work_ui.gd" id="1_m8eme"]
 [ext_resource type="LabelSettings" uid="uid://cxycfsfvncgdx" path="res://LabelSettings/Timer.tres" id="1_rm3r7"]
 [ext_resource type="LabelSettings" uid="uid://biopj888teyjp" path="res://LabelSettings/Work_Details.tres" id="2_3xbik"]
+[ext_resource type="Script" path="res://scripts_debugs/set_to_2_seconds.gd" id="3_ob58d"]
 
 [sub_resource type="Theme" id="Theme_exxuh"]
 
@@ -12,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_m8eme")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -32,6 +35,11 @@ size_flags_horizontal = 4
 text = "1234"
 label_settings = ExtResource("1_rm3r7")
 
+[node name="SetTo2Seconds" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Set to 2s"
+script = ExtResource("3_ob58d")
+
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
@@ -46,3 +54,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_exxuh")
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/SetTo2Seconds" to="VBoxContainer/HBoxContainer/SetTo2Seconds" method="_on_pressed"]
