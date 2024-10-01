@@ -22,7 +22,7 @@ func init_planets():
 		return
 	
 	var json_string = file.get_as_text()
-	print(json_string)
+	#print(json_string)
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error == OK:

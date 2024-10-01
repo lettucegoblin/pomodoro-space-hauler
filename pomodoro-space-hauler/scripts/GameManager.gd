@@ -46,7 +46,8 @@ func start_timer_work():
 
 # Example handler for when routes are updated (optional)
 func _on_routes_updated(updated_routes):
-	print("Routes updated:", updated_routes)
+	#print("Routes updated:", updated_routes)
+	pass
 
 # Function to get routes from the routes manager
 func get_routes():
@@ -87,11 +88,25 @@ func complete_cycle():
 	else:
 		# Transition to the appropriate scene based on the interval
 		if current_interval == WORK_INTERVAL:
-			emit_signal("work_cycle_started", WORK_SCENE)
-			#transition_to_scene("res://scenes/work_scene.tscn")
+			start_work()
 		else:
-			emit_signal("break_cycle_started", BREAK_SCENE)
-			#transition_to_scene("res://scenes/break_scene.tscn")
+			start_break()
+
+func start_break():
+	# Start a break cycle
+	current_interval = BREAK_INTERVAL
+	time_remaining = current_interval * 60
+	timer_running = true
+	emit_signal("break_cycle_started", BREAK_SCENE)
+	#transition_to_scene("res://scenes/break_scene.tscn")
+
+func start_work():
+	# Start a work cycle
+	current_interval = WORK_INTERVAL
+	time_remaining = current_interval * 60
+	timer_running = true
+	emit_signal("work_cycle_started", WORK_SCENE)
+	#transition_to_scene("res://scenes/work_scene.tscn")
 
 func get_current_route():
 	# Return the current route data

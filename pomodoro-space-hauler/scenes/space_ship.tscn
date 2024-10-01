@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dktwhn2ivy0nr"]
+[gd_scene load_steps=13 format=3 uid="uid://dktwhn2ivy0nr"]
 
 [ext_resource type="Texture2D" uid="uid://cxiepbha4viu0" path="res://assets/spaceship.png" id="1_0xppf"]
 [ext_resource type="Texture2D" uid="uid://bvfpxbhfkk754" path="res://assets/exhaust.png" id="1_4dl2x"]
@@ -70,6 +70,136 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship_transform/CenterEngine:amount_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship_transform/BottomEngine:amount_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ship_transform/TopEngine:amount_ratio")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_rcsw6"]
+resource_name = "break_cycle_intro"
+length = 3.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship_transform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(0.267943, 5.09824),
+"update": 0,
+"values": [Vector2(-200, 62), Vector2(960, 62)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship_transform:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0085349, 1.61962, 2.03397, 2.99147),
+"transitions": PackedFloat32Array(0.329877, 2, 1, 0.784583),
+"update": 0,
+"values": [-0.0872665, 0.0698132, -0.0261799, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship_transform/CenterEngine:amount_ratio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.4555, 2.99498),
+"transitions": PackedFloat32Array(0.34151, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship_transform/BottomEngine:amount_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.48385, 2.54282),
+"transitions": PackedFloat32Array(3.03143, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ship_transform/TopEngine:amount_ratio")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.57715, 2.46352),
+"transitions": PackedFloat32Array(11.7127, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_wg4q2"]
+resource_name = "break_ship_idle"
+loop_mode = 1
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship_transform:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.508493, 1),
+"transitions": PackedFloat32Array(0.707107, 1.23114, 1),
+"update": 0,
+"values": [Vector2(960, 62), Vector2(960, 59), Vector2(960, 62)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship_transform:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.587799, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0]
+}
 
 [sub_resource type="Animation" id="Animation_mbkv2"]
 resource_name = "ship_shake"
@@ -100,7 +230,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_p7war"]
-resource_name = "break_cycle"
+resource_name = "work_cycle_outro"
 length = 3.0
 step = 3.0
 tracks/0/type = "value"
@@ -131,8 +261,10 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bbk8t"]
 _data = {
 "RESET": SubResource("Animation_8yrvb"),
-"break_cycle": SubResource("Animation_p7war"),
-"ship_shake": SubResource("Animation_mbkv2")
+"break_cycle_intro": SubResource("Animation_rcsw6"),
+"break_ship_idle": SubResource("Animation_wg4q2"),
+"ship_shake": SubResource("Animation_mbkv2"),
+"work_cycle_outro": SubResource("Animation_p7war")
 }
 
 [node name="space_ship" type="Node2D"]
@@ -181,4 +313,3 @@ texture = ExtResource("1_0xppf")
 libraries = {
 "": SubResource("AnimationLibrary_bbk8t")
 }
-autoplay = "ship_shake"

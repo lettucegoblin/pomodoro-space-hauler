@@ -5,15 +5,12 @@ var next_scene_path: String
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	GameManager.connect("break_cycle_started", Callable(self, "_on_break_cycle_started"))
-	animation_player = $Node2D/space_ship.animationPlayer
+	GameManager.connect("work_cycle_started", Callable(self, "_on_work_cycle_started"))
+	animation_player = $space_ship.animationPlayer
+	animation_player.play("break_cycle_intro")
 	animation_player.connect("animation_finished", Callable(self, "_on_animation_finished"))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _on_break_cycle_started(scene_file_path: String) -> void:
+func _on_work_cycle_started(scene_file_path: String) -> void:
 	next_scene_path = scene_file_path
 	change_animation("work_cycle_outro")
 

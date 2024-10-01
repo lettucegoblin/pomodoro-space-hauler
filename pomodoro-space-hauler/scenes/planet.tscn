@@ -6,7 +6,7 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_isg10"]
 noise_type = 4
-seed = 35
+seed = 54
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fw6r3"]
 seamless = true
@@ -15,23 +15,23 @@ noise = SubResource("FastNoiseLite_isg10")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1nvx7"]
 shader = ExtResource("1_hxsbu")
 shader_parameter/planet_size = 1.0
-shader_parameter/planet_color = Color(0.704306, 0.64017, 0.755593, 1)
+shader_parameter/planet_color = Color(0.879583, 0.512808, 0.785234, 1)
 shader_parameter/water_color = Color(0.445138, 0.272316, 0.519658, 1)
 shader_parameter/shadow_color = Color(0.325243, 0.0893648, 0.34815, 1)
 shader_parameter/shadow_transparency = 1.0
 shader_parameter/land_water_threshold = 0.5
 shader_parameter/noise_scale = Vector2(1, 1)
-shader_parameter/scroll_direction = Vector2(1, 0)
+shader_parameter/scroll_direction = Vector2(1, 0.01)
 shader_parameter/scroll_speed = 0.1
-shader_parameter/light_angle = 180.0
+shader_parameter/light_angle = 178.498
 shader_parameter/day_night_cycle_speed = 0.615
 shader_parameter/rim_light_intensity = 0.0
 shader_parameter/thin_rim_intensity = 0.2
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_fw6r3")
 
 [node name="Planet" type="Node2D"]
+script = ExtResource("3_8e8m7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1nvx7")
 texture = ExtResource("2_hdclj")
-script = ExtResource("3_8e8m7")

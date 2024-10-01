@@ -13,7 +13,7 @@ func _process(delta: float) -> void:
 
 func _on_planets_updated(updated_planets: Array) -> void:
 	# Handle updated planets data
-	print("Planets updated:", updated_planets)
+	#print("Planets updated:", updated_planets)
 	# clear existing planets
 	for child in %planets.get_children():
 		child.queue_free()
