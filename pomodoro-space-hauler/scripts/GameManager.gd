@@ -25,7 +25,7 @@ var routes_manager = null
 
 
 # Probably dont need to export with a headless script but whatever
-@export var debug : bool = true
+@export var debug: bool = true
 
 func _ready():
 	# Initialize the routes manager
@@ -70,27 +70,10 @@ func start_job(job_data):
 func complete_cycle():
 	# Handle completion of work/break cycle
 	if current_interval == WORK_INTERVAL:
-		current_interval = BREAK_INTERVAL
-		emit_signal("break_cycle_started", BREAK_SCENE)
-	else:
 		completed_cycles += 1
-		current_interval = WORK_INTERVAL
-		emit_signal("work_cycle_started", WORK_SCENE)
-
-	time_remaining = current_interval * 60
-
-	# If the job is completed, emit a job completed signal
-	if completed_cycles >= total_cycles:
-		emit_signal("job_completed", JOB_COMPLETE_SCENE)
-		timer_running = false
-		# Optionally, transition to a "job complete" scene or return to the job selection screen
-		#transition_to_scene("res://scenes/job_complete.tscn")
+		start_break()
 	else:
-		# Transition to the appropriate scene based on the interval
-		if current_interval == WORK_INTERVAL:
-			start_work()
-		else:
-			start_break()
+		start_work()
 
 func start_break():
 	# Start a break cycle
@@ -156,6 +139,7 @@ func _process(delta):
 	if timer_running:
 		time_remaining -= delta
 		# Emit signal to update any timer display in the UI
+		print(time_remaining)
 		emit_signal("timer_updated", time_remaining)
 		if time_remaining <= 0:
 			timer_running = false
