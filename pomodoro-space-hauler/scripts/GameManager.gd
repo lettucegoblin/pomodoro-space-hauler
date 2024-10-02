@@ -35,7 +35,7 @@ func _ready():
 
 	# You could refresh routes at the start or during specific actions
 	routes_manager.refresh_routes()
-	start_timer_work()
+	#start_timer_work()
 
 func start_timer_work():
 	current_interval = WORK_INTERVAL

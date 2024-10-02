@@ -20,3 +20,5 @@ func _on_break_cycle_started(scene_file_path: String) -> void:
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "work_cycle_outro" and next_scene_path:
 		get_tree().change_scene_to_file(next_scene_path)
+	elif anim_name == "work_cycle_intro":
+		spaceship_animation_player.play("ship_shake")

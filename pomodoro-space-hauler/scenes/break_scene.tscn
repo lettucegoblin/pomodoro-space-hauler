@@ -31,8 +31,7 @@ scale = Vector2(4.34475, 4.34475)
 script = null
 
 [node name="space_ship" parent="." instance=ExtResource("3_473yb")]
-position = Vector2(-206, 370)
-scale = Vector2(0.992892, 0.992892)
+position = Vector2(-200, 370)
 
 [node name="BreakUI" parent="." instance=ExtResource("5_p0fcy")]
 layout_mode = 1

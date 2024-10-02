@@ -17,3 +17,4 @@ func _on_pressed() -> void:
 	
 func start() -> void:
 	get_tree().change_scene_to_file("res://scenes/work_scene.tscn")
+	GameManager.start_timer_work()
