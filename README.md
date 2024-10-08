@@ -1,1 +1,1 @@
-[Devlog](devlog.md)
+[Devlog](pomodoro-space-hauler/devlog.md)
