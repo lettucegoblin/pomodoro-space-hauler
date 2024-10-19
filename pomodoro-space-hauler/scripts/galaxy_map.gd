@@ -4,14 +4,15 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	GameManager.routes_manager.connect("planets_updated", Callable(self, "_on_planets_updated"))
+	GameManager.routes_manager.connect("clusters_updated", Callable(self, "_on_clusters_updated"))
 	spawn_planets(GameManager.routes_manager.planets)
+	
 
-func _on_planets_updated(updated_planets: Array) -> void:
+func _on_clusters_updated(updated_clusters: Array) -> void:
 	# Clear existing planets
 	for child in %planets.get_children():
 		child.queue_free()
-	spawn_planets(updated_planets)
+	#spawn_planets(updated_clusters)
 
 # Spawns planet.tscn instances based on the updated planets data
 func spawn_planets(planets_data: Array) -> void:

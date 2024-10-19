@@ -38,39 +38,37 @@ func _init():
 	else:
 		print("JSON file not found.")
 	file.close()
-	var planets = generate_planets()
-	print(planets)
+
 
 # Planet generation
-func generate_planets() -> Array:
-	var planets = []
-	var clusters = generate_clusters()
-
+func generate_planets(cluster: Cluster, count : int) -> void:
 	# Distribute planets among clusters
-	for i in range(num_planets):
-		var planet = {}
-		planet.name = random_item(planet_data["planet_names"])
-		planet.cluster = random_item(clusters)
+	var planet_names = random_items(planet_data["planet_names"], count)
+	for planet_name in planet_names:
+		var planet = Planet.new(planet_name, cluster.get_name())
 		planet.resources = random_items(planet_data["resources"], rng.randi_range(1, max_resources_per_planet))
 		planet.special_features = random_items(planet_data["special_features"], rng.randi_range(1, max_features_per_planet))
 		planet.hazards = random_items(planet_data["hazards"], rng.randi_range(0, max_hazards_per_planet))
 		planet.trade_goods = random_items(planet_data["trade_goods"], rng.randi_range(1, max_trade_goods_per_planet))
-		planets.append(planet)
-
-	return planets
+		cluster.add_planet(planet)
 
 # Generate clusters based on distribution
-func generate_clusters() -> Array:
-	var clusters = []
+func generate_clusters() -> Array[Cluster]:
+	var clusters: Array[Cluster] = []
 	var min_per_cluster = int(num_planets / num_clusters)
 	var extra_planets = num_planets % num_clusters
+
+	var clusters_names = random_items(planet_data["cluster_names"], num_clusters)
 
 	for i in range(num_clusters):
 		var num_planets_in_cluster = min_per_cluster + (1 if extra_planets > 0 else 0)
 		extra_planets -= 1
-		var cluster_name = random_item(planet_data["cluster_names"])
-		for j in range(num_planets_in_cluster):
-			clusters.append(cluster_name)
+		var cluster_name = clusters_names[i]
+		var cluster = Cluster.new(cluster_name)
+
+		generate_planets(cluster, num_planets_in_cluster)
+
+		clusters.append(cluster)
 
 	return clusters
 

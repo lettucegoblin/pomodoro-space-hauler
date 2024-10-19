@@ -1,28 +1,37 @@
-extends Node
+class_name Planet
 
-@export var planet_color: Color
-@export var water_color: Color 
-@export var light_angle: float
-@export var scroll_speed: float
-@export var shader: ShaderMaterial
+var name = ""
+var cluster = ""
+var resources = []
+var special_features = []
+var hazards = []
+var trade_goods = []
 
-# Initialize the setters in _ready
-func _ready() -> void:
-	shader = $Sprite2D.material
-	#set_planet_color(planet_color)
-	#set_water_color(water_color)
-	#set_light_angle(light_angle)
-	#set_scroll_speed(scroll_speed)
 
-# Setter methods for each shader parameter
-func set_planet_color(new_color: Color) -> void:
-	$Sprite2D.material.set_shader_parameter("planet_color", new_color)
+func _init(name, cluster, resources = [], special_features = [], hazards = [], trade_goods = []):
+  self.name = name
+  self.cluster = cluster
+  self.resources = resources
+  self.special_features = special_features
+  self.hazards = hazards
+  self.trade_goods = trade_goods
+  print("Planet initialized: " + name)
 
-func set_water_color(new_color: Color) -> void:
-	$Sprite2D.material.set_shader_parameter("water_color", new_color)
+func get_name():
+  return name
 
-func set_light_angle(new_angle: float) -> void:
-	$Sprite2D.material.set_shader_parameter("light_angle", new_angle)
+func get_cluster():
+  return cluster
 
-func set_scroll_speed(new_speed: float) -> void:
-	$Sprite2D.material.set_shader_parameter("scroll_speed", new_speed)
+func get_resources():
+  return resources
+
+func get_special_features():
+  return special_features
+
+func get_hazards():
+  return hazards
+
+func get_trade_goods():
+  return trade_goods
+  

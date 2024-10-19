@@ -2,52 +2,29 @@ extends Node
 
 # Custom signal to notify when routes are generated or updated
 signal routes_updated
-signal planets_updated
+signal clusters_updated
 
 # Array to store the generated routes
 var routes = []
-@export var planets = []
-var all_planets = []
+var clusters : Array[Cluster] = []
+var planetGenerator = null
+
 
 # Generate initial routes when the Routes class is loaded
 func _init():
-	init_planets()
-	generate_galaxy(20)
-
-func init_planets():
-	# Read planets.json from data/planets.json
-	var file = FileAccess.open("res://data/planets.json", FileAccess.READ)
-	if !file:
-		printerr("Error opening file")
-		return
-	
-	var json_string = file.get_as_text()
-	#print(json_string)
-	var json = JSON.new()
-	var error = json.parse(json_string)
-	if error == OK:
-		var data_received = json.data
-		print(typeof(data_received))
-		if typeof(data_received) == TYPE_DICTIONARY:
-			all_planets = data_received["planets"]
-		else:
-			printerr("Unexpected data")
-	else:
-		printerr("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-		
-	file.close()
+	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
+	clusters = planetGenerator.generate_clusters()
+	generate_galaxy(8, 3)
 
 # Function to generate new routes
-func refresh_routes():
+func refresh_routes(num_routes = 5):
 	# Clear existing routes
 	routes.clear()
 
 	# Generate random routes (example logic)
-	for i in range(20): # Generate 5 random routes for now
-		var start_planet = all_planets[randi() % all_planets.size()]
-		var end_planet = all_planets[randi() % all_planets.size()]
-		while end_planet == start_planet: # Ensure start and end are not the same
-			end_planet = all_planets[randi() % all_planets.size()]
+	for i in range(num_routes): # Generate 5 random routes for now
+		var start_planet = clusters[randi() % clusters.size()].get_random_planet()
+		var end_planet = clusters[randi() % clusters.size()].get_random_planet()
 		
 		# Each route could be represented as a dictionary with start, end, and distance
 		var route = {
@@ -61,17 +38,15 @@ func refresh_routes():
 	# Emit signal to notify any connected nodes that routes have been updated
 	emit_signal("routes_updated", routes)
 
-func generate_galaxy(num_planets = 5):
+func generate_galaxy(num_planets = 5, num_clusters = 3):
 	# Clear existing planets
-	planets.clear()
-
-	for i in range(num_planets): 
-		var planet = all_planets[randi() % all_planets.size()]
-		if planet not in planets:
-			planets.append(planet)
-
+	clusters.clear()
+	planetGenerator.num_planets = num_planets
+	planetGenerator.num_clusters = num_clusters
+	clusters = planetGenerator.generate_clusters()
+	
 	# Emit signal to notify any connected nodes that planets have been updated
-	emit_signal("planets_updated", planets)
+	emit_signal("clusters_updated", clusters)
 
 # Function to get current routes
 func get_routes():

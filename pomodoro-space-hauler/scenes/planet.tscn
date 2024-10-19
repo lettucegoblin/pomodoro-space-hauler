@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://shaders/planet.gdshader" id="1_hxsbu"]
 [ext_resource type="Texture2D" uid="uid://dl45k8c6jvwpi" path="res://icon.svg" id="2_hdclj"]
-[ext_resource type="Script" path="res://scripts/planet.gd" id="3_8e8m7"]
+[ext_resource type="Script" path="res://scripts/planet_shader.gd" id="3_8e8m7"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_isg10"]
 noise_type = 4

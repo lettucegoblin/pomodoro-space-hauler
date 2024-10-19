@@ -25,16 +25,17 @@ var routes_manager = null
 var planetGenerator = null
 
 
+
+
 # Probably dont need to export with a headless script but whatever
 @export var debug: bool = true
 
 func _ready():
 	# Initialize the routes manager
 	routes_manager = load("res://scripts/RoutesManager.gd").new()
-	
 	routes_manager.connect("routes_updated", Callable(self, "_on_routes_updated"))
 
-	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
+	
 
 func start_timer_work():
 	current_interval = WORK_INTERVAL
