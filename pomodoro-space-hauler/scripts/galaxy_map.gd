@@ -13,7 +13,7 @@ func _ready() -> void:
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 8.0  # Adjust the speed as needed
 
-	spawn_clusters(GameManager.routes_manager.clusters)
+	spawn_clusters_universe(GameManager.routes_manager.clusters)
 	GameManager.routes_manager.connect("clusters_updated", Callable(self, "_on_clusters_updated"))
 	
 	#spawn_planets(GameManager.routes_manager.planets)
@@ -23,7 +23,12 @@ func _on_clusters_updated(updated_clusters: Array) -> void:
 
 	for child in %ClusterContainer.get_children():
 		child.queue_free()
-	spawn_clusters(updated_clusters)
+	#spawn_clusters(updated_clusters)
+	spawn_clusters_universe(updated_clusters)
+
+func spawn_clusters_universe(clusters_data: Array) -> void:
+	%UniverseScene.clusters = clusters_data
+	$UniverseScene.spawn_clusters_universe()
 
 
 func spawn_clusters(clusters_data: Array) -> void:

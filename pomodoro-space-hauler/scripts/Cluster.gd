@@ -4,6 +4,15 @@ var name: String = ""
 var planets: Array[Planet] = []
 var neighbors: Array[Cluster] = []  # Neighbors of this cluster
 
+static var CLUSTERGRID = [] # 2D array of clusters
+
+static func GET_CLUSTERGRID_ROW(i: int) -> Array[Cluster]:
+	var row: Array[Cluster] = []
+	for cluster in CLUSTERGRID[i]:
+		row.append(cluster)
+	return row as Array[Cluster]
+
+
 func _init(name: String, planets: Array[Planet] = []):
 	self.name = name
 	self.planets = planets

@@ -1,14 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://bq45cj78xyyua"]
+[gd_scene load_steps=3 format=3 uid="uid://bq45cj78xyyua"]
 
 [ext_resource type="Texture2D" uid="uid://crlnnrg640d62" path="res://assets/star_06.png" id="1_aefhm"]
+[ext_resource type="Script" path="res://scripts/mini_cluster.gd" id="1_e8np5"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_e8np5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_aefhm")
 
 [node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -17.0
+offset_top = -38.0
+offset_right = 23.0
+offset_bottom = -15.0
 text = "test"

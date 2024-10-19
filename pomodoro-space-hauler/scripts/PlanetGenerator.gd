@@ -3,7 +3,6 @@ extends Node
 class_name PlanetGenerator
 
 
-
 # Data from JSON
 var planet_data = {
 	"planet_names": [],
@@ -40,7 +39,7 @@ func _init():
 
 
 # Planet generation
-func generate_planets(cluster: Cluster, count : int) -> void:
+func generate_planets(cluster: Cluster, count: int) -> void:
 	# Distribute planets among clusters
 	var planet_names = GameManager.random_items(planet_data["planet_names"], count)
 	for planet_name in planet_names:
@@ -72,9 +71,47 @@ func generate_clusters() -> Array[Cluster]:
 	connect_clusters(clusters)
 
 	return clusters
+# Ensure all clusters are connected and placed in a 2D grid
+func connect_clusters(clusters: Array[Cluster]) -> void:
+		var grid_size = int(ceil(sqrt(clusters.size()))) # Determine the grid dimensions (as square as possible)
+		var grid  = [] #Array[Array[Cluster]]
+
+		# Initialize the 2D array (grid)
+		for i in range(grid_size):
+				grid.append([])
+
+		# Populate the grid with clusters
+		var index = 0
+		for i in range(grid_size):
+				for j in range(grid_size):
+						if index < clusters.size():
+								grid[i].append(clusters[index])
+								index += 1
+						else:
+								grid[i].append(null) # Fill with null if clusters are fewer than grid cells
+
+		# Connect clusters within the grid
+		for i in range(grid_size):
+				for j in range(grid_size):
+						var cluster = grid[i][j]
+						if cluster == null:
+								continue
+
+						# Connect to the cluster on the right
+						if j + 1 < grid_size and grid[i][j + 1] != null:
+								var right_cluster = grid[i][j + 1]
+								cluster.add_neighbor(right_cluster)
+								right_cluster.add_neighbor(cluster)
+
+						# Connect to the cluster below
+						if i + 1 < grid_size and grid[i + 1][j] != null:
+								var down_cluster = grid[i + 1][j]
+								cluster.add_neighbor(down_cluster)
+								down_cluster.add_neighbor(cluster)
+		Cluster.CLUSTERGRID = grid
 
 # Ensure all clusters are connected
-func connect_clusters(clusters: Array[Cluster]) -> void:
+func connect_clusters_old(clusters: Array[Cluster]) -> void:
 	var unconnected_clusters = clusters.duplicate()
 	var connected_clusters: Array[Cluster] = []
 
@@ -104,7 +141,6 @@ func connect_clusters(clusters: Array[Cluster]) -> void:
 			if cluster_a != cluster_b and not cluster_a.is_connected_to(cluster_b):
 					cluster_a.add_neighbor(cluster_b)
 					cluster_b.add_neighbor(cluster_a)
-
 
 
 # Configurable parameters for the generator
