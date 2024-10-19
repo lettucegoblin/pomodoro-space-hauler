@@ -12,10 +12,5 @@ fractal_lacunarity = 3.0
 script = ExtResource("1_pc542")
 noise = SubResource("FastNoiseLite_m83qs")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="planets" type="Node" parent="."]
-unique_name_in_owner = true
-
-[node name="ClusterContainer" type="Node2D" parent="."]
 unique_name_in_owner = true

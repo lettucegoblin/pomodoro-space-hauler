@@ -1,5 +1,6 @@
-extends Node
+extends Node2D
 
+var planet_data: Planet
 @export var planet_color: Color
 @export var water_color: Color 
 @export var light_angle: float
@@ -9,6 +10,7 @@ extends Node
 # Initialize the setters in _ready
 func _ready() -> void:
 	shader = $Sprite2D.material
+	%PlanetName.text = planet_data.get_name()
 	#set_planet_color(planet_color)
 	#set_water_color(water_color)
 	#set_light_angle(light_angle)

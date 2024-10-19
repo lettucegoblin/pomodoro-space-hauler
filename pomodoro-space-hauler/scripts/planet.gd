@@ -1,7 +1,7 @@
 class_name Planet
 
 var name = ""
-var cluster = ""
+var cluster: Cluster = null
 var resources = []
 var special_features = []
 var hazards = []
@@ -20,7 +20,7 @@ func _init(name, cluster, resources = [], special_features = [], hazards = [], t
 func get_name():
   return name
 
-func get_cluster():
+func get_cluster() -> Cluster:
   return cluster
 
 func get_resources():

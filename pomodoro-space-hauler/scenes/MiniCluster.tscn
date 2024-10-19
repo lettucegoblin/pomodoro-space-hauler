@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq45cj78xyyua"]
+
+[ext_resource type="Texture2D" uid="uid://crlnnrg640d62" path="res://assets/star_06.png" id="1_aefhm"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_aefhm")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "test"

@@ -2,8 +2,7 @@ extends Node
 
 class_name PlanetGenerator
 
-# Random number generator
-var rng = RandomNumberGenerator.new()
+
 
 # Data from JSON
 var planet_data = {
@@ -43,13 +42,13 @@ func _init():
 # Planet generation
 func generate_planets(cluster: Cluster, count : int) -> void:
 	# Distribute planets among clusters
-	var planet_names = random_items(planet_data["planet_names"], count)
+	var planet_names = GameManager.random_items(planet_data["planet_names"], count)
 	for planet_name in planet_names:
-		var planet = Planet.new(planet_name, cluster.get_name())
-		planet.resources = random_items(planet_data["resources"], rng.randi_range(1, max_resources_per_planet))
-		planet.special_features = random_items(planet_data["special_features"], rng.randi_range(1, max_features_per_planet))
-		planet.hazards = random_items(planet_data["hazards"], rng.randi_range(0, max_hazards_per_planet))
-		planet.trade_goods = random_items(planet_data["trade_goods"], rng.randi_range(1, max_trade_goods_per_planet))
+		var planet = Planet.new(planet_name, cluster)
+		planet.resources = GameManager.random_items(planet_data["resources"], GameManager.rng.randi_range(1, max_resources_per_planet))
+		planet.special_features = GameManager.random_items(planet_data["special_features"], GameManager.rng.randi_range(1, max_features_per_planet))
+		planet.hazards = GameManager.random_items(planet_data["hazards"], GameManager.rng.randi_range(0, max_hazards_per_planet))
+		planet.trade_goods = GameManager.random_items(planet_data["trade_goods"], GameManager.rng.randi_range(1, max_trade_goods_per_planet))
 		cluster.add_planet(planet)
 
 # Generate clusters based on distribution
@@ -58,31 +57,55 @@ func generate_clusters() -> Array[Cluster]:
 	var min_per_cluster = int(num_planets / num_clusters)
 	var extra_planets = num_planets % num_clusters
 
-	var clusters_names = random_items(planet_data["cluster_names"], num_clusters)
+	var cluster_names = GameManager.random_items(planet_data["cluster_names"], num_clusters)
 
+	# Create the clusters
 	for i in range(num_clusters):
 		var num_planets_in_cluster = min_per_cluster + (1 if extra_planets > 0 else 0)
 		extra_planets -= 1
-		var cluster_name = clusters_names[i]
+		var cluster_name = cluster_names[i]
 		var cluster = Cluster.new(cluster_name)
-
 		generate_planets(cluster, num_planets_in_cluster)
-
 		clusters.append(cluster)
+
+	# Connect the clusters to form a graph
+	connect_clusters(clusters)
 
 	return clusters
 
-# Helper functions to grab random items from the lists
-func random_item(array: Array) -> String:
-	return array[rng.randi_range(0, array.size() - 1)]
+# Ensure all clusters are connected
+func connect_clusters(clusters: Array[Cluster]) -> void:
+	var unconnected_clusters = clusters.duplicate()
+	var connected_clusters: Array[Cluster] = []
 
-func random_items(array: Array, count: int) -> Array:
-	var selected = []
-	for i in range(count):
-		var item = random_item(array)
-		if item not in selected:
-			selected.append(item)
-	return selected
+	# Pick the first cluster and add it to the connected list
+	var current_cluster = unconnected_clusters.pop_front()
+	connected_clusters.append(current_cluster)
+
+	# Use a loop to connect all clusters
+	while unconnected_clusters.size() > 0:
+			# Pick a random cluster from the connected set
+			var random_connected_cluster = connected_clusters[GameManager.rng.randi_range(0, connected_clusters.size() - 1)]
+
+			# Pick a random unconnected cluster
+			var random_unconnected_cluster = unconnected_clusters.pop_front()
+
+			# Connect the clusters
+			random_connected_cluster.add_neighbor(random_unconnected_cluster)
+			random_unconnected_cluster.add_neighbor(random_connected_cluster)
+
+			# Add the newly connected cluster to the list of connected clusters
+			connected_clusters.append(random_unconnected_cluster)
+
+	# Optionally, create additional random connections between clusters
+	for i in range(clusters.size()):
+			var cluster_a = clusters[i]
+			var cluster_b = clusters[GameManager.rng.randi_range(0, clusters.size() - 1)]
+			if cluster_a != cluster_b and not cluster_a.is_connected_to(cluster_b):
+					cluster_a.add_neighbor(cluster_b)
+					cluster_b.add_neighbor(cluster_a)
+
+
 
 # Configurable parameters for the generator
 func set_num_planets(value: int):

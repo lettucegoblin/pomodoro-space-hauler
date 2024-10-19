@@ -24,7 +24,8 @@ var completed_cycles = 0
 var routes_manager = null
 var planetGenerator = null
 
-
+# Random number generator
+var rng = RandomNumberGenerator.new()
 
 
 # Probably dont need to export with a headless script but whatever
@@ -148,3 +149,22 @@ func _process(delta):
 func set_time_remaining(time: int):
 	time_remaining = time
 	emit_signal("timer_updated", time_remaining)
+
+
+# Helper functions to grab random items from the lists
+func random_item(array: Array):
+	return array[rng.randi_range(0, array.size() - 1)]
+
+func random_items(array: Array, count: int):
+	var selected = []
+	var collisons = 0
+	while selected.size() < count:
+		var item = random_item(array)
+		if item not in selected:
+			selected.append(item)
+		else:
+			collisons += 1
+		if collisons > 100:
+			print("Broke after 100 tries")
+			break
+	return selected

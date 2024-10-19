@@ -1,56 +1,56 @@
 extends Node2D
 
 @export var noise = FastNoiseLite.new()
+@onready var camera = $Camera2D
+
+var zoom_factor = 1.0
+var zoom_min = 0.5
+var zoom_max = 2.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Enable Camera2D zoom smoothing for a smooth zooming experience
+	camera.position_smoothing_enabled = true
+	camera.position_smoothing_speed = 8.0  # Adjust the speed as needed
+
+	spawn_clusters(GameManager.routes_manager.clusters)
 	GameManager.routes_manager.connect("clusters_updated", Callable(self, "_on_clusters_updated"))
-	spawn_planets(GameManager.routes_manager.planets)
+	
+	#spawn_planets(GameManager.routes_manager.planets)
 	
 
 func _on_clusters_updated(updated_clusters: Array) -> void:
-	# Clear existing planets
-	for child in %planets.get_children():
+
+	for child in %ClusterContainer.get_children():
 		child.queue_free()
-	#spawn_planets(updated_clusters)
+	spawn_clusters(updated_clusters)
 
-# Spawns planet.tscn instances based on the updated planets data
-func spawn_planets(planets_data: Array) -> void:
-	var galaxy_size = get_viewport_rect().size
-	var min_distance = 100.0
-	var planet_positions = []
 
-	for i in range(planets_data.size()):
-		var planet_data = planets_data[i]
-		var planet_instance = preload("res://scenes/planet.tscn").instantiate()
+func spawn_clusters(clusters_data: Array) -> void:
+	for i in range(clusters_data.size()):
+		var cluster_data = clusters_data[i]
+		var cluster_instance = preload("res://scenes/cluster_node.tscn").instantiate()
+		cluster_instance._initialize(cluster_data)
+		%ClusterContainer.add_child(cluster_instance)
 
-		var random_x = 0.0
-		var random_y = 0.0
-		var attempts = 0
+# Handle zooming via mouse wheel or touch input
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			zoom_factor = clamp(zoom_factor - 0.1, zoom_min, zoom_max)
+			camera.zoom = Vector2(zoom_factor, zoom_factor)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			zoom_factor = clamp(zoom_factor + 0.1, zoom_min, zoom_max)
+			camera.zoom = Vector2(zoom_factor, zoom_factor)
 
-		while attempts < 100000:
-			# Generate random coordinates based on noise
-			random_x = (noise.get_noise_2d(i * 10.0, i * 20.0) + 1.0) * 0.5 * galaxy_size.x
-			random_y = (noise.get_noise_2d(i * 15.0, i * 25.0) + 1.0) * 0.5 * galaxy_size.y
-			
-			# Get a noise value to decide if a planet should be placed at this location
-			var noise_value = noise.get_noise_2d(random_x, random_y)
+	# TODO: Implement pinch zoom for mobile touch events, Need to track touchpoints 
+	# Pinch zoom for mobile touch events
+	#elif event is InputEventScreenTouch and event.get_index() > 0:
+	#	handle_pinch_zoom(event)
 
-			# Only place the planet if the noise value is within a certain range
-			if noise_value > -0.2 and noise_value < 0.2:
-				var valid_position = true
-
-				# Check if the new position is far enough from existing planets
-				for pos in planet_positions:
-					if pos.distance_to(Vector2(random_x, random_y)) < min_distance:
-						valid_position = false
-						break
-
-				if valid_position:
-					planet_positions.append(Vector2(random_x, random_y))
-					break
-
-			attempts += 1
-
-		planet_instance.position = Vector2(random_x, random_y)
-		%planets.add_child(planet_instance)
+# Helper function to handle pinch zoom on mobile
+func handle_pinch_zoom(event: InputEvent):
+	var current_distance = (event.position - event.position_previous).length()
+	var scale_change = current_distance * 0.01  # Adjust this factor as necessary
+	zoom_factor = clamp(zoom_factor + scale_change, zoom_min, zoom_max)
+	camera.zoom = Vector2(zoom_factor, zoom_factor)
