@@ -1,35 +1,55 @@
 extends Node2D
 
+@export var noise = FastNoiseLite.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameManager.routes_manager.connect("planets_updated", Callable(self, "_on_planets_updated"))
-	#spawn_planets(GameManager.routes_manager.planets)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	spawn_planets(GameManager.routes_manager.planets)
 
 func _on_planets_updated(updated_planets: Array) -> void:
-	# Handle updated planets data
-	#print("Planets updated:", updated_planets)
-	# clear existing planets
+	# Clear existing planets
 	for child in %planets.get_children():
 		child.queue_free()
 	spawn_planets(updated_planets)
 
 # Spawns planet.tscn instances based on the updated planets data
 func spawn_planets(planets_data: Array) -> void:
-	# Get the size of the galaxy map container or parent node
-	var galaxy_size = get_viewport_rect().size # or self.rect_size if it's a Control node
+	var galaxy_size = get_viewport_rect().size
+	var min_distance = 100.0
+	var planet_positions = []
 
-	for planet_data in planets_data:
+	for i in range(planets_data.size()):
+		var planet_data = planets_data[i]
 		var planet_instance = preload("res://scenes/planet.tscn").instantiate()
 
-		# Randomly position the planet within the bounds of the galaxy map
-		var random_x = randi_range(0, galaxy_size.x)
-		var random_y = randi_range(0, galaxy_size.y)
-		planet_instance.position = Vector2(random_x, random_y)
+		var random_x = 0.0
+		var random_y = 0.0
+		var attempts = 0
 
+		while attempts < 100000:
+			# Generate random coordinates based on noise
+			random_x = (noise.get_noise_2d(i * 10.0, i * 20.0) + 1.0) * 0.5 * galaxy_size.x
+			random_y = (noise.get_noise_2d(i * 15.0, i * 25.0) + 1.0) * 0.5 * galaxy_size.y
+			
+			# Get a noise value to decide if a planet should be placed at this location
+			var noise_value = noise.get_noise_2d(random_x, random_y)
+
+			# Only place the planet if the noise value is within a certain range
+			if noise_value > -0.2 and noise_value < 0.2:
+				var valid_position = true
+
+				# Check if the new position is far enough from existing planets
+				for pos in planet_positions:
+					if pos.distance_to(Vector2(random_x, random_y)) < min_distance:
+						valid_position = false
+						break
+
+				if valid_position:
+					planet_positions.append(Vector2(random_x, random_y))
+					break
+
+			attempts += 1
+
+		planet_instance.position = Vector2(random_x, random_y)
 		%planets.add_child(planet_instance)

@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://b10uwspyrndjq"]
+[gd_scene load_steps=3 format=3 uid="uid://b10uwspyrndjq"]
 
 [ext_resource type="Script" path="res://scripts/galaxy_map.gd" id="1_pc542"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_m83qs"]
+noise_type = 2
+frequency = 0.0185
+fractal_type = 2
+fractal_lacunarity = 3.0
+
 [node name="galaxy_map" type="Node2D"]
 script = ExtResource("1_pc542")
+noise = SubResource("FastNoiseLite_m83qs")
 
 [node name="planets" type="Node" parent="."]
 unique_name_in_owner = true

@@ -12,7 +12,7 @@ var all_planets = []
 # Generate initial routes when the Routes class is loaded
 func _init():
 	init_planets()
-	generate_galaxy()
+	generate_galaxy(20)
 
 func init_planets():
 	# Read planets.json from data/planets.json
@@ -43,7 +43,7 @@ func refresh_routes():
 	routes.clear()
 
 	# Generate random routes (example logic)
-	for i in range(5): # Generate 5 random routes for now
+	for i in range(20): # Generate 5 random routes for now
 		var start_planet = all_planets[randi() % all_planets.size()]
 		var end_planet = all_planets[randi() % all_planets.size()]
 		while end_planet == start_planet: # Ensure start and end are not the same

@@ -22,6 +22,7 @@ var current_interval = WORK_INTERVAL
 var total_cycles = 0
 var completed_cycles = 0
 var routes_manager = null
+var planetGenerator = null
 
 
 # Probably dont need to export with a headless script but whatever
@@ -33,9 +34,7 @@ func _ready():
 	
 	routes_manager.connect("routes_updated", Callable(self, "_on_routes_updated"))
 
-	# You could refresh routes at the start or during specific actions
-	routes_manager.refresh_routes()
-	#start_timer_work()
+	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
 
 func start_timer_work():
 	current_interval = WORK_INTERVAL
@@ -123,7 +122,7 @@ func save_game_state():
 func load_game_state():
 	# Load the saved game state
 	var file = FileAccess.open("user://save_game.json", FileAccess.READ)
-	if file:
+	if file:		
 		var json = JSON.new()
 		var json_result = json.parse(file.get_as_text())
 		if json_result.error == OK:

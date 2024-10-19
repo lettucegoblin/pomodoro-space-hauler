@@ -38,3 +38,6 @@
 * Struggled to blend animations with just AnimationPlayer, I will try to use AnimationTree to blend animations.
 * Read:  https://docs.godotengine.org/en/stable/tutorials/animation/animation_tree.html
   * I want to use the animation tree to manage the animations of the ship and the planets. Currently animationplayer is being used and doesn't transition well between animations.
+
+### 2024-10-8 2hr:
+* Preliminary route management
