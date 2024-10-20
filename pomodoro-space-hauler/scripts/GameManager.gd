@@ -72,9 +72,9 @@ func complete_cycle():
 	# Handle completion of work/break cycle
 	if current_interval == WORK_INTERVAL:
 		completed_cycles += 1
-		start_break()
+		start_break()  #smart asf
 	else:
-		start_work()
+		start_work()   #even smarter
 
 func start_break():
 	# Start a break cycle
@@ -165,6 +165,6 @@ func random_items(array: Array, count: int):
 		else:
 			collisons += 1
 		if collisons > 100:
-			print("Broke after 100 tries")
+			print("Broke after 100 tries")  #oof
 			break
 	return selected

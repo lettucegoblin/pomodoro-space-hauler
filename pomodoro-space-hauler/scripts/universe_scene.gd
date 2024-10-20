@@ -8,7 +8,7 @@ var mini_cluster_scene: PackedScene
 var speed = 0.05 # Speed of movement along the ring
 var clusters: Array[Cluster] = []
 
-@onready var center_of_universe = $CenterOfUniverse # A node that acts as the center
+@onready var center_of_universe = $CenterOfUniverse # A node that acts as the center  (ps- there is no real center of the universe since every point can be considered the center of the universe - prove me wrong)
 
 # You can set the mini-cluster PackedScene in the editor or load it dynamically
 func _ready():
@@ -33,6 +33,9 @@ func spawn_clusters_universe() -> void:
 func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clusters: int) -> void:
 		var ring = Path2D.new()
 		
+		# add line2d to show the path
+		var line = Line2D.new()
+		ring.add_child(line)
 		
 		
 		ring.position = center_of_universe.position
@@ -41,15 +44,22 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 		
 		# Create a curve for the Path2D
 		var curve = Curve2D.new()
+		var points = []
 		var resolution = 360
 		for i in range(resolution):
 				var angle = 2 * PI * i / resolution
-				var x = radius * cos(angle)
+				var x = radius * cos(angle)  #wow ok physics moment doobie doobie doo
 				var y = radius * sin(angle)
 				curve.add_point(Vector2(x, y))
+				points.append(Vector2(x, y))
 		
 		ring.curve = curve
 		add_child(ring)
+
+		line.default_color = Color(1, 1, 1)
+		line.width = 1
+		line.points = points
+
 
 		# Now add PathFollow2D for each mini-cluster
 		for i in range(num_clusters):
@@ -57,8 +67,8 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 						continue
 				var cluster_instance = mini_cluster_scene.instantiate()
 				cluster_instance.cluster = cluster_row[i]
-				cluster_instance.fuck()
-				var path_follower = PathFollow2D.new()
+				
+				var path_follower = PathFollow2D.new()   # PathFollow2D is a node that follows a path
 				path_follower.rotates = false
 
 				# Place the mini-cluster along the path

@@ -9,10 +9,7 @@ var zoom_max = 2.5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Enable Camera2D zoom smoothing for a smooth zooming experience
-	camera.position_smoothing_enabled = true
-	camera.position_smoothing_speed = 8.0  # Adjust the speed as needed
-
+	
 	spawn_clusters_universe(GameManager.routes_manager.clusters)
 	GameManager.routes_manager.connect("clusters_updated", Callable(self, "_on_clusters_updated"))
 	
