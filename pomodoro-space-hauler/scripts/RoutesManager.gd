@@ -14,7 +14,7 @@ var planetGenerator:PlanetGenerator = null
 # Generate initial routes when the Routes class is loaded
 func _init():
 	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
-	generate_galaxy(8, 10)
+	generate_galaxy(20, 6)
 	refresh_routes(len(all_possible_routes))
 	
 	

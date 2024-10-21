@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnj5q34pw23af"]
+
+[ext_resource type="Script" path="res://scripts/baby_planet_scene.gd" id="1_10hwi"]
+[ext_resource type="Texture2D" uid="uid://mc1g053b7mso" path="res://assets/miniplanet.png" id="1_ke2m4"]
+
+[node name="baby_planet_scene" type="Node2D"]
+script = ExtResource("1_10hwi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_ke2m4")

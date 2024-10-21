@@ -17,7 +17,7 @@ func _ready():
 	mini_cluster_scene = preload("res://scenes/MiniCluster.tscn")
 	#spawn_test_rings()
 
-# use Cluster.CLUSTERGRID which is a 2d array of clusters to create rings
+# use Cluster.CLUSTERGRID wplhich is a 2d array of clusters to create rings
 # clusters in the same row are on the same ring
 func spawn_clusters_universe() -> void:
 	# Clear existing rings
