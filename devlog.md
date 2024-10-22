@@ -40,4 +40,33 @@
   * I want to use the animation tree to manage the animations of the ship and the planets. Currently animationplayer is being used and doesn't transition well between animations.
 
 ### 2024-10-8 2hr:
-* Preliminary route management
+* Preliminary route management implementation. It's working but it's not very clean. I will refactor it later.
+
+### 2024-10-9 3hr:
+* Watched a bunch of videos on gdscript and godot best practices
+
+### 2024-10-13 2hr:
+* Watched a bunch of videos on gdscript and godot best practices again
+* Made a MyGPT that focuses on best practices and knows to generate code in Godot 4 syntax.
+
+### 2024-10-18 8hr:
+* Made a side project that is like a transparent overlay that shows a pixel city. https://github.com/lettucegoblin/desktop-city-sim
+  * I tested out a bunch of different ui and nodes in godot to get more comfortable with the engine for the main project. I also learned how to use the viewport node to create a transparent overlay. And how to use the camera2d with separate canvas layers. 
+
+### 2024-10-19 8hr: 
+* fussing on generating planets. I used a local llm to generate a ton of planet, cluster, resources, special_features, hazards, and trade_goods for a json file
+  * I then used this in godot to generate the planets and their attributes. I also used it to make routes between planets in different clusters
+
+### 2024-10-20 9hr:
+* Updated the route management system to use the new planet generation system with proper signalling and displaying for clusters.
+* Made a universe scene that has cluster's orbiting a central star. The clusters have planets that orbit them. The planets have resources, special features, hazards, and trade goods. The planets are connected by routes(just in code for now). 
+  * Each nested scene is passed data from signalling to keep the view updated with the model. I'm really trying not to mix the view and model.
+
+### 2024-10-21 8hr:
+* Tested the making the mini planets around the miniclusters in the universe scene a particle system that orbits the minicluster. It works but doesn't spawn the particles with enough consistency and is difficult to debug with particles that have a practicle infinite lifespan. The editor has to be reset each time i want to test another setting.
+* I rewrote it with a regular physicsbody2d and it was easier to test but i didnt like fussing with n-body problems as they collided with each other.
+* I rewrite it again with a regular sprite that uses a path2d to orbit the minicluster. They're just glorified progressbars and made things simple and predictable.
+
+### 2024-10-22 10hr:
+* Started writing the route management scene that actually shows the routes that had been generated. There's a ListItem node that is used to display the routes. I'm using a signal to update the list item with the route data. I had to separate the galaxy map with a canvaslayer so the zooming of the camera from the galaxy map wouldn't affect the route management scene.
+* Wrote my dev log

@@ -1,4 +1,8 @@
-[gd_scene format=3 uid="uid://c4ba0l3547yf5"]
+[gd_scene load_steps=4 format=3 uid="uid://c4ba0l3547yf5"]
+
+[ext_resource type="Script" path="res://scripts/route_management.gd" id="1_2l2af"]
+[ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_ugenh"]
+[ext_resource type="Theme" uid="uid://c8jgjff7uxpq8" path="res://theme/RouteManagement.tres" id="2_kp6eq"]
 
 [node name="RouteManagement" type="Control"]
 layout_mode = 3
@@ -7,29 +11,55 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_2l2af")
 
-[node name="GalaxyMap" type="Node2D" parent="."]
+[node name="galaxy_map" parent="." instance=ExtResource("1_ugenh")]
 
-[node name="Star" type="Sprite2D" parent="GalaxyMap"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="RoutePath" type="Line2D" parent="GalaxyMap"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(0, 200)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_kp6eq")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="RouteItemList" type="ItemList" parent="CanvasLayer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_kp6eq")
+item_count = 2
+item_0/text = "Planet 1"
+item_1/text = "Planet 2"
 
-[node name="Distance" type="Label" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("2_kp6eq")
 
-[node name="FuelConsumption" type="Label" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_kp6eq")
+theme_override_constants/separation = 10
 
-[node name="EstimatedTime" type="Label" parent="Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="Distance" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("2_kp6eq")
+text = "Distance"
+
+[node name="FuelConsumption" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("2_kp6eq")
+text = "Fuel
+"
+
+[node name="EstimatedTime" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("2_kp6eq")
+text = "ETA
+"

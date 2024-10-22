@@ -66,5 +66,10 @@ text = "Debug:"
 layout_mode = 2
 text = "Galaxy Map"
 
+[node name="RouteManageButton" type="Button" parent="CenterContainer/VBoxContainer/DebugContainer"]
+layout_mode = 2
+text = "Route Manager"
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/DebugContainer/GalaxyButton" to="." method="_on_galaxy_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/DebugContainer/RouteManageButton" to="." method="_on_route_manage_button_pressed"]

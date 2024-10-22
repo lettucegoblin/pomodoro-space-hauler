@@ -13,3 +13,7 @@ func _on_start_button_pressed() -> void:
 
 func _on_galaxy_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/galaxy_map.tscn")
+
+
+func _on_route_manage_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/route_management.tscn")

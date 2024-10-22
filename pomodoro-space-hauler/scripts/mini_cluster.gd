@@ -11,9 +11,11 @@ var speed = 1.0 # Speed of movement along the ring
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	mini_planet_scene = preload("res://scenes/baby_planet_scene.tscn")
-	$Label.text = cluster.get_name() + ": "
+	$Label.text = "Cluster: \n" + cluster.get_name()
 	for planet in cluster.get_planets():
-		$Label2.text += planet.get_name() + ", "
+		$Label2.text += "Planets: \n" + planet.get_name() + ", "
+	if $Label2.text != "":
+		$Label2.text = $Label2.text.left($Label2.text.length() - 2)
 	spawn_planets()
 	
 func spawn_planets() -> void:
@@ -79,3 +81,7 @@ func _on_label_mouse_entered() -> void:
 
 func _on_label_mouse_exited() -> void:
 	$Label2.visible = false
+
+
+func _on_label_gui_input(event: InputEvent) -> void:
+	print("label gui event") # Replace with function body.
