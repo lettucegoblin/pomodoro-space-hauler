@@ -7,6 +7,9 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameManager.connect("timer_updated", Callable(self, "_on_timer_updated"))
+	print("Work UI Ready")
+	var route_detail_str = GameManager.routes_manager.route_detail_str(GameManager.routes_manager.selected_route_index)
+	%WorkLabelDetails.text = "Work for " + str(GameManager.current_interval) + " minutes" + "\n" + route_detail_str
 	
 
 func _on_timer_updated(time_remaining: int) -> void:

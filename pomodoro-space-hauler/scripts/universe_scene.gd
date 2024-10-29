@@ -7,7 +7,7 @@ var rings: Array[Variant] = []
 var mini_cluster_scene: PackedScene
 var speed = 0.05 # Speed of movement along the ring
 var clusters: Array[Cluster] = []
-var selected_routes: Array[int] = []
+var selected_route_index: int = -1
 var path_lines: Array[Line2D] = []
 
 @onready var center_of_universe = $CenterOfUniverse # A node that acts as the center  (ps- there is no real center of the universe since every point can be considered the center of the universe - prove me wrong)
@@ -18,11 +18,11 @@ func _ready():
 	center_of_universe.position = Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y / 2)
 	mini_cluster_scene = preload("res://scenes/MiniCluster.tscn")
 	# subscribe to selected_clusters_updated
-	GameManager.routes_manager.connect("selected_routes_updated", Callable(self, "on_selected_routes_updated"))
+	GameManager.routes_manager.connect("selected_route_updated", Callable(self, "on_selected_route_updated"))
 	#spawn_test_rings()
 
-func on_selected_routes_updated(_selected_routes: Array[int]) -> void:
-	selected_routes = _selected_routes
+func on_selected_route_updated(_selected_route: int) -> void:
+	selected_route_index = _selected_route
 	
 
 # use Cluster.CLUSTERGRID wplhich is a 2d array of clusters to create rings
@@ -116,12 +116,10 @@ func _physics_process(delta):
 		for follower in ring.ring.get_children():
 			if follower is PathFollow2D:
 				follower.progress_ratio += delta * speed * ring_speed # Move the mini-cluster along the path
-	for route_index in selected_routes:
-		var route = GameManager.routes_manager.routes[route_index]
-		var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
-		if path.size() <= 1:
-			break
-		
+
+	var route = GameManager.routes_manager.routes[selected_route_index]
+	var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
+	if path.size() >= 1:
 		for i in range(path.size() - 1):
 			var cluster1 = path[i]
 			var cluster2 = path[i + 1]

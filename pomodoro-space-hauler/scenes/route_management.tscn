@@ -69,6 +69,13 @@ theme = ExtResource("2_kp6eq")
 text = "ETA
 "
 
+[node name="StartRouteButton" type="Button" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "Start Selected Route"
+
 [connection signal="item_selected" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_item_selected"]
 [connection signal="mouse_entered" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2/StartRouteButton" to="." method="_on_start_route_button_pressed"]

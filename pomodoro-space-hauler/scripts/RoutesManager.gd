@@ -3,14 +3,14 @@ extends Node
 # Custom signal to notify when routes are generated or updated
 signal routes_updated
 signal clusters_updated
-signal selected_routes_updated
+signal selected_route_updated
 
 # Array to store the generated routes
 var routes: Array[Route] = []
 var all_possible_routes: Array[Route] = []
 var clusters: Array[Cluster] = []
 var planetGenerator:PlanetGenerator = null
-var selected_routes_indexs: Array[int] = []
+var selected_route_index: int = -1
 
 
 # Generate initial routes when the Routes class is loaded
@@ -60,9 +60,18 @@ func generate_galaxy(num_planets = 5, num_clusters = 3):
 	# Emit signal to notify any connected nodes that planets have been updated
 	emit_signal("clusters_updated", clusters)
 
-func set_selected_routes(selected_routes: Array[int]):
-	selected_routes_indexs = selected_routes
-	emit_signal("selected_routes_updated", selected_routes_indexs)
+func set_selected_route(selected_route: int):
+	selected_route_index = selected_route
+	emit_signal("selected_route_updated", selected_route_index)
+
+
+func route_detail_str(index: int) -> String:
+	var route = routes[index]
+	return route.starting_planet.get_name() + " -> " + route.ending_planet.get_name() + " (" + str(route.calculate_distance()) + " units)"
+
+func start_selected_route():
+	# change the scene to the main game scene
+	GameManager.transition_to_scene("res://scenes/work_scene.tscn")
 
 func get_all_planets() -> Array[Planet]:
 		var all_planets: Array[Planet] = []

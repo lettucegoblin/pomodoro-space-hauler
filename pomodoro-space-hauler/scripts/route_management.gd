@@ -35,10 +35,16 @@ func _on_route_item_list_mouse_exited() -> void:
 func update_label_with_selected_route(index: int) -> void:
 	%DistanceLabel.text = "Distance: " + str(GameManager.routes_manager.routes[index].calculate_distance())
 
-
+func enable_StartRouteButton() -> void:
+	%StartRouteButton.disabled = false
 
 func _on_route_item_list_item_selected(index: int) -> void:
 	GameManager.routes_manager.routes[index].print_route()
-	var arr : Array[int] = [index]
-	GameManager.routes_manager.set_selected_routes(arr)
+	GameManager.routes_manager.set_selected_route(index)
 	update_label_with_selected_route(index)
+	enable_StartRouteButton()
+
+
+func _on_start_route_button_pressed() -> void:
+	print("Start Route Button Pressed")
+	GameManager.routes_manager.start_selected_route()

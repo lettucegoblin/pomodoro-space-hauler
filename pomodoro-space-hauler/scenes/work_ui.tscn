@@ -40,13 +40,14 @@ layout_mode = 2
 text = "Set to 2s"
 script = ExtResource("3_ob58d")
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="WorkLabelDetails" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
 text = "Details:"
 label_settings = ExtResource("2_3xbik")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Label"]
+[node name="Panel" type="Panel" parent="VBoxContainer/WorkLabelDetails"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
