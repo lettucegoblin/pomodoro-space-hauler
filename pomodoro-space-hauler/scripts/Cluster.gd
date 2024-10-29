@@ -3,6 +3,7 @@ class_name Cluster
 var name: String = ""
 var planets: Array[Planet] = []
 var neighbors: Array[Cluster] = []  # Neighbors of this cluster
+var mini_cluster_instance: BabyPlanetScene = null
 
 static var CLUSTERGRID = [] # 2D array of clusters
 

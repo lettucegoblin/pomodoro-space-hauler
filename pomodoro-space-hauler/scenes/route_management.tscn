@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_2l2af")
 
 [node name="galaxy_map" parent="." instance=ExtResource("1_ugenh")]
+unique_name_in_owner = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -42,24 +43,32 @@ layout_mode = 2
 theme = ExtResource("2_kp6eq")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("2_kp6eq")
 theme_override_constants/separation = 10
 
-[node name="Distance" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="DistanceLabel" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_kp6eq")
 text = "Distance"
 
-[node name="FuelConsumption" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="FuelConsumptionLabel" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_kp6eq")
 text = "Fuel
 "
 
-[node name="EstimatedTime" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+[node name="EstimatedTimeLabel" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("2_kp6eq")
 text = "ETA
 "
+
+[connection signal="item_selected" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_item_selected"]
+[connection signal="mouse_entered" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_exited"]

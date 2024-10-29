@@ -9,6 +9,10 @@ func starting_cluster() -> Cluster:
 func ending_cluster() -> Cluster:
 	return ending_planet.get_cluster()
 
+func calculate_distance() -> int:
+	var path = find_path_between_planets(starting_planet, ending_planet)
+	return path.size()
+
 func print_route():
 	print("Route from " + starting_planet.get_name() + " to " + ending_planet.get_name())
 	print("Starting cluster: " + starting_cluster().get_name())

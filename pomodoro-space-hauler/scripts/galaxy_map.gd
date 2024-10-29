@@ -2,6 +2,7 @@ extends Node2D
 
 @export var noise = FastNoiseLite.new()
 @onready var camera = $Camera2D
+@export var block_scroll:bool = false
 
 var zoom_factor = 1.0
 var zoom_min = 0.5
@@ -37,7 +38,9 @@ func spawn_clusters(clusters_data: Array) -> void:
 
 # Handle zooming via mouse wheel or touch input
 func _input(event):
-	if event is InputEventMouseButton:
+	# if event is InputEventMouseButton:
+	# 	print("block_scroll", block_scroll)
+	if event is InputEventMouseButton and !block_scroll:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			zoom_factor = clamp(zoom_factor - 0.1, zoom_min, zoom_max)
 			camera.zoom = Vector2(zoom_factor, zoom_factor)

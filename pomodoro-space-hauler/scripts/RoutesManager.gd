@@ -3,19 +3,21 @@ extends Node
 # Custom signal to notify when routes are generated or updated
 signal routes_updated
 signal clusters_updated
+signal selected_routes_updated
 
 # Array to store the generated routes
 var routes: Array[Route] = []
 var all_possible_routes: Array[Route] = []
 var clusters: Array[Cluster] = []
 var planetGenerator:PlanetGenerator = null
+var selected_routes_indexs: Array[int] = []
 
 
 # Generate initial routes when the Routes class is loaded
 func _init():
 	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
 	generate_galaxy(20, 6)
-	refresh_routes(len(all_possible_routes))
+	refresh_routes()
 	
 	
 
@@ -58,7 +60,9 @@ func generate_galaxy(num_planets = 5, num_clusters = 3):
 	# Emit signal to notify any connected nodes that planets have been updated
 	emit_signal("clusters_updated", clusters)
 
-
+func set_selected_routes(selected_routes: Array[int]):
+	selected_routes_indexs = selected_routes
+	emit_signal("selected_routes_updated", selected_routes_indexs)
 
 func get_all_planets() -> Array[Planet]:
 		var all_planets: Array[Planet] = []

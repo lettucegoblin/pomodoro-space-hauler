@@ -7,6 +7,8 @@ var rings: Array[Variant] = []
 var mini_cluster_scene: PackedScene
 var speed = 0.05 # Speed of movement along the ring
 var clusters: Array[Cluster] = []
+var selected_routes: Array[int] = []
+var path_lines: Array[Line2D] = []
 
 @onready var center_of_universe = $CenterOfUniverse # A node that acts as the center  (ps- there is no real center of the universe since every point can be considered the center of the universe - prove me wrong)
 
@@ -15,7 +17,13 @@ func _ready():
 	# set the center of the universe at the center of the viewport
 	center_of_universe.position = Vector2(get_viewport_rect().size.x / 2, get_viewport_rect().size.y / 2)
 	mini_cluster_scene = preload("res://scenes/MiniCluster.tscn")
+	# subscribe to selected_clusters_updated
+	GameManager.routes_manager.connect("selected_routes_updated", Callable(self, "on_selected_routes_updated"))
 	#spawn_test_rings()
+
+func on_selected_routes_updated(_selected_routes: Array[int]) -> void:
+	selected_routes = _selected_routes
+	
 
 # use Cluster.CLUSTERGRID wplhich is a 2d array of clusters to create rings
 # clusters in the same row are on the same ring
@@ -67,6 +75,7 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 						continue
 				var cluster_instance = mini_cluster_scene.instantiate()
 				cluster_instance.cluster = cluster_row[i]
+				cluster_row[i].mini_cluster_instance = cluster_instance
 				
 				var path_follower = PathFollow2D.new()   # PathFollow2D is a node that follows a path
 				path_follower.rotates = false
@@ -83,11 +92,37 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 				"radius": radius
 		})
 
+func clear_lines() -> void:
+	for line in path_lines:
+		line.queue_free()
+	path_lines.clear()
+
+
+func draw_line_between_clusters(cluster1: Cluster, cluster2: Cluster) -> void:
+		
+		var line = Line2D.new()
+		line.default_color = Color(1, 1, 1)
+		line.width = 1
+		line.points = [cluster1.mini_cluster_instance.global_position, cluster2.mini_cluster_instance.global_position]
+		path_lines.append(line)
+		add_child(line)
+
 
 func _physics_process(delta):
+	clear_lines()
 	for ring in rings:
 		var ring_speed = ring.radius / 500.0 # Adjust the speed based on the position along the path
 
 		for follower in ring.ring.get_children():
 			if follower is PathFollow2D:
 				follower.progress_ratio += delta * speed * ring_speed # Move the mini-cluster along the path
+	for route_index in selected_routes:
+		var route = GameManager.routes_manager.routes[route_index]
+		var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
+		if path.size() <= 1:
+			break
+		
+		for i in range(path.size() - 1):
+			var cluster1 = path[i]
+			var cluster2 = path[i + 1]
+			draw_line_between_clusters(cluster1, cluster2)
