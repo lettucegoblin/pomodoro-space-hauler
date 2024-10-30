@@ -6,13 +6,33 @@ var block_scroll_timer: Timer
 func _ready() -> void:
 	on_routes_updated(GameManager.routes_manager.routes)
 	GameManager.routes_manager.connect("routes_updated", Callable(self, "on_routes_updated"))
+	GameManager.HideRouteManager()
 
 
 func sort_by_distance(a, b):
 	if a.calculate_distance() > b.calculate_distance():
 		return true
 	return false
+	
+func showModal() -> void:
+	var canvas_layers = get_tree().get_nodes_in_group("RouteCanvasLayers")
+	for canvas_layer in canvas_layers:
+		# hide the route manager
+		canvas_layer.show()
+	resetZoom()
+	%galaxy_map/%GalaxyMapCamera.enabled = true
+		
+func hideModal() -> void:
+	var canvas_layers = get_tree().get_nodes_in_group("RouteCanvasLayers")
+	for canvas_layer in canvas_layers:
+		# hide the route manager
+		canvas_layer.hide()
+	resetZoom()
+	%galaxy_map/%GalaxyMapCamera.enabled = false
 
+func resetZoom() -> void:
+	
+	%galaxy_map/%GalaxyMapCamera.zoom = Vector2(1, 1)
 
 func on_routes_updated(routes: Array) -> void:
 	%RouteItemList.clear()
@@ -48,3 +68,4 @@ func _on_route_item_list_item_selected(index: int) -> void:
 func _on_start_route_button_pressed() -> void:
 	print("Start Route Button Pressed")
 	GameManager.routes_manager.start_selected_route()
+	GameManager.HideRouteManager()

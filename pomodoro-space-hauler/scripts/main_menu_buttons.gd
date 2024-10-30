@@ -3,10 +3,12 @@ extends Control
 func _ready() -> void:
 	if !GameManager.debug:
 		%DebugContainer.hide()
+	GameManager.HideRouteManager()
 	
 func start() -> void:
 	get_tree().change_scene_to_file("res://scenes/work_scene.tscn")
 	GameManager.start_timer_work()
+	
 
 func _on_start_button_pressed() -> void:
 	start()
@@ -16,4 +18,5 @@ func _on_galaxy_button_pressed() -> void:
 
 
 func _on_route_manage_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/route_management.tscn")
+	GameManager.ShowRouteManager()
+	#get_tree().change_scene_to_file("res://scenes/route_management.tscn")

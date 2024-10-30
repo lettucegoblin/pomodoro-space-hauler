@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var noise = FastNoiseLite.new()
-@onready var camera = $Camera2D
+@onready var camera = %GalaxyMapCamera
 @export var block_scroll:bool = false
 
 var zoom_factor = 1.0
@@ -26,7 +26,7 @@ func _on_clusters_updated(updated_clusters: Array) -> void:
 
 func spawn_clusters_universe(clusters_data: Array) -> void:
 	%UniverseScene.clusters = clusters_data
-	$UniverseScene.spawn_clusters_universe()
+	%UniverseScene.spawn_clusters_universe()
 
 
 func spawn_clusters(clusters_data: Array) -> void:

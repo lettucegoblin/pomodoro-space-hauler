@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4ba0l3547yf5"]
+[gd_scene load_steps=5 format=3 uid="uid://c4ba0l3547yf5"]
 
 [ext_resource type="Script" path="res://scripts/route_management.gd" id="1_2l2af"]
 [ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_ugenh"]
 [ext_resource type="Theme" uid="uid://c8jgjff7uxpq8" path="res://theme/RouteManagement.tres" id="2_kp6eq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moqna"]
+bg_color = Color(0.207843, 0.294118, 0.356863, 1)
 
 [node name="RouteManagement" type="Control"]
 layout_mode = 3
@@ -13,10 +16,27 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2l2af")
 
-[node name="galaxy_map" parent="." instance=ExtResource("1_ugenh")]
+[node name="CanvasLayer3" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
+layer = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer3"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_moqna")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
+layer = 10
+
+[node name="galaxy_map" parent="CanvasLayer2" instance=ExtResource("1_ugenh")]
 unique_name_in_owner = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
+layer = 11
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 custom_minimum_size = Vector2(0, 200)

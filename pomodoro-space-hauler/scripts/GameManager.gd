@@ -31,12 +31,19 @@ var rng = RandomNumberGenerator.new()
 # Probably dont need to export with a headless script but whatever
 @export var debug: bool = true
 
+# Hide route manager autoload instance
+func HideRouteManager():
+	# loop over all RouteCanvasLayers in global groups
+	RouteManagementInstance.hideModal()
+
+func ShowRouteManager():
+	# loop over all RouteCanvasLayers in global groups
+	RouteManagementInstance.showModal()
+
 func _ready():
 	# Initialize the routes manager
 	routes_manager = load("res://scripts/RoutesManager.gd").new()
 	routes_manager.connect("routes_updated", Callable(self, "_on_routes_updated"))
-
-	
 
 func start_timer_work():
 	current_interval = WORK_INTERVAL

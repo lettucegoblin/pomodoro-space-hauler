@@ -13,16 +13,21 @@ fractal_lacunarity = 3.0
 script = ExtResource("1_pc542")
 noise = SubResource("FastNoiseLite_m83qs")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
+layer = 6
+follow_viewport_enabled = true
+
+[node name="GalaxyMapCamera" type="Camera2D" parent="CanvasLayer"]
+unique_name_in_owner = true
 position = Vector2(578, 324)
 position_smoothing_enabled = true
 
-[node name="planets" type="Node" parent="."]
+[node name="planets" type="Node" parent="CanvasLayer"]
 unique_name_in_owner = true
 
-[node name="ClusterContainer" type="Node2D" parent="."]
+[node name="ClusterContainer" type="Node2D" parent="CanvasLayer"]
 unique_name_in_owner = true
 visible = false
 
-[node name="UniverseScene" parent="." instance=ExtResource("2_lm6vx")]
+[node name="UniverseScene" parent="CanvasLayer" instance=ExtResource("2_lm6vx")]
 unique_name_in_owner = true
