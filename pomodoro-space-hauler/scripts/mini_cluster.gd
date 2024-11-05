@@ -3,7 +3,7 @@ class_name BabyPlanetScene
 var cluster: Cluster = null
 var tiny_baby_planets: Array[Variant] = []
 
-var mini_planet_scene: PackedScene
+var  mini_planet_scene: PackedScene
 
 var speed = 1.0 # Speed of movement along the ring
 
@@ -11,7 +11,7 @@ var speed = 1.0 # Speed of movement along the ring
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	mini_planet_scene = preload("res://scenes/baby_planet_scene.tscn")
-	$Label.text = "Cluster: \n" + cluster.get_name()
+	$Label.text = cluster.get_name()
 	for planet in cluster.get_planets():
 		$Label2.text += "Planets: \n" + planet.get_name() + ", "
 	if $Label2.text != "":
@@ -47,7 +47,7 @@ func create_planet_with_path(radius: float, planet: Planet) -> void:
 
 		# Now add PathFollow2D for the planet
 		var planet_instance = mini_planet_scene.instantiate()
-		#planet_instance.planet = planet
+		planet_instance.set_planet(planet)
 
 		var path_follower = PathFollow2D.new()
 		path_follower.rotates = false
@@ -59,6 +59,7 @@ func create_planet_with_path(radius: float, planet: Planet) -> void:
 
 		tiny_baby_planets.append({
 			"planet": planet,
+			"planet_instance": planet_instance,
 			"ring": ring,
 			"path_follower": path_follower,
 			"radius": radius
@@ -76,11 +77,15 @@ func _process(delta: float) -> void:
 
 
 func _on_label_mouse_entered() -> void:
-	$Label2.visible = true
+	for planet in tiny_baby_planets:
+		planet.planet_instance.show_name_label(true)
+	#$Label2.visible = true
 
 
 func _on_label_mouse_exited() -> void:
-	$Label2.visible = false
+	for planet in tiny_baby_planets:
+		planet.planet_instance.show_name_label(false)
+	#$Label2.visible = false
 
 
 func _on_label_gui_input(event: InputEvent) -> void:

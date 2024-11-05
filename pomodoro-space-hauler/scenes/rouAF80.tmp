@@ -8,8 +8,6 @@
 bg_color = Color(0.207843, 0.294118, 0.356863, 1)
 
 [sub_resource type="Gradient" id="Gradient_pcu1x"]
-offsets = PackedFloat32Array(0, 0.548872, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.863676, 4.81307e-07, 0.443196, 1, 1, 0.903122, 0.957329, 1)
 
 [node name="RouteManagement" type="Control"]
 layout_mode = 3
@@ -107,7 +105,7 @@ disabled = true
 text = "Start Selected Route"
 
 [node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(-33, -35, 313, -50, 513, -57)
+points = PackedVector2Array(0, -1, 55, -35, 70.619, -35.9334, 306, -50, 373, -35)
 gradient = SubResource("Gradient_pcu1x")
 
 [connection signal="pressed" from="CanvasLayer3/Panel/ClosedButton" to="." method="_on_closed_button_pressed"]

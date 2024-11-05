@@ -16,6 +16,14 @@ func _ready() -> void:
 	#set_light_angle(light_angle)
 	#set_scroll_speed(scroll_speed)
 
+func set_planet(p_planet: Planet) -> void:
+	planet_data = p_planet
+	%PlanetName.text = p_planet.get_name()
+	set_planet_color(p_planet.get_color())
+	#set_water_color(p_planet.get_color())
+	#set_light_angle(0.0)
+	#set_scroll_speed(0.0)
+
 # Setter methods for each shader parameter
 func set_planet_color(new_color: Color) -> void:
 	$Sprite2D.material.set_shader_parameter("planet_color", new_color)

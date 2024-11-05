@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4ba0l3547yf5"]
+[gd_scene load_steps=5 format=3 uid="uid://c4ba0l3547yf5"]
 
 [ext_resource type="Script" path="res://scripts/route_management.gd" id="1_2l2af"]
 [ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_ugenh"]
@@ -6,10 +6,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moqna"]
 bg_color = Color(0.207843, 0.294118, 0.356863, 1)
-
-[sub_resource type="Gradient" id="Gradient_pcu1x"]
-offsets = PackedFloat32Array(0, 0.548872, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.863676, 4.81307e-07, 0.443196, 1, 1, 0.903122, 0.957329, 1)
 
 [node name="RouteManagement" type="Control"]
 layout_mode = 3
@@ -105,10 +101,6 @@ unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "Start Selected Route"
-
-[node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(-33, -35, 313, -50, 513, -57)
-gradient = SubResource("Gradient_pcu1x")
 
 [connection signal="pressed" from="CanvasLayer3/Panel/ClosedButton" to="." method="_on_closed_button_pressed"]
 [connection signal="item_selected" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_item_selected"]

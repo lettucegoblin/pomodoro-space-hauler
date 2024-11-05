@@ -98,17 +98,55 @@ func clear_lines() -> void:
 	path_lines.clear()
 
 
-func draw_line_between_clusters(cluster1: Cluster, cluster2: Cluster) -> void:
-		
-		var line = Line2D.new()
-		line.default_color = Color(1, 1, 1)
-		line.width = 1
-		line.points = [cluster1.mini_cluster_instance.global_position, cluster2.mini_cluster_instance.global_position]
-		path_lines.append(line)
-		add_child(line)
+func draw_line_between_clusters(delta: float, cluster1: Cluster, cluster2: Cluster) -> void:
+	# Draw the line between clusters with the animated gradient
+	var line = Line2D.new()
 
+	line.width = 1
+	line.points = [
+		cluster1.mini_cluster_instance.global_position, 
+		cluster1.mini_cluster_instance.global_position / 2 + cluster2.mini_cluster_instance.global_position / 2,
+		cluster2.mini_cluster_instance.global_position
+		]
+	
+	var gradient = Gradient.new()
+	var color_val = (sin(time_passed * 5.2) + 1) / 2  # oscillates between 0 and 1
+	var phase_shift = 2 * PI / 3  # A phase shift to create the rotating effect
+
+	# Define each color phase based on shifted sine waves
+	var red = (sin(time_passed * 5.2) + 1) / 2
+	var yellow = (sin(time_passed * 5.2 + phase_shift) + 1) / 2
+	var green = (sin(time_passed * 5.2 + 2 * phase_shift) + 1) / 2
+
+	# Organize the colors based on the rotation effect you want
+	gradient.colors = PackedColorArray([
+		Color(red, yellow, 0),    # First gradient point: red, yellow, green
+		Color(green, red, 0),     # Second gradient point: green, red, yellow
+		Color(yellow, green, 0),  # Third gradient point: yellow, green, red
+	])
+
+	gradient.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
+
+
+	gradient.offsets = [0, 0.5, 1.0]
+
+	line.gradient = gradient
+	path_lines.append(line)
+	add_child(line)
+
+func draw_route_path(delta: float) -> void:
+	var route = GameManager.routes_manager.routes[selected_route_index]
+	var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
+	if path.size() >= 1:
+		for i in range(path.size() - 1):
+			var cluster1 = path[i]
+			var cluster2 = path[i + 1]
+			draw_line_between_clusters(delta, cluster1, cluster2)
+
+var time_passed = 0.0
 
 func _physics_process(delta):
+	time_passed += delta
 	clear_lines()
 	for ring in rings:
 		var ring_speed = ring.radius / 500.0 # Adjust the speed based on the position along the path
@@ -117,10 +155,6 @@ func _physics_process(delta):
 			if follower is PathFollow2D:
 				follower.progress_ratio += delta * speed * ring_speed # Move the mini-cluster along the path
 
-	var route = GameManager.routes_manager.routes[selected_route_index]
-	var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
-	if path.size() >= 1:
-		for i in range(path.size() - 1):
-			var cluster1 = path[i]
-			var cluster2 = path[i + 1]
-			draw_line_between_clusters(cluster1, cluster2)
+	if selected_route_index >= 0:
+		draw_route_path(delta)
+	

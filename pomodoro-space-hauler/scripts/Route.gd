@@ -29,7 +29,7 @@ func print_route():
 	
 
 func find_path_between_planets(start_planet: Planet, end_planet: Planet) -> Array[Variant]:
-		# If both planets are in the same cluster, return []
+		# If both planets are in the same cluster, return [start_cluster]
 		if start_planet.get_cluster() == end_planet.get_cluster():
 				return [start_planet.get_cluster()]
 

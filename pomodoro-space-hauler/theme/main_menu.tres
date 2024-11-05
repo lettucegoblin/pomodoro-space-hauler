@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://d10hqjyhkv815"]
 
-[ext_resource type="FontFile" uid="uid://c4ujs4w7b1h6v" path="res://Connection.otf" id="1_i5l60"]
+[ext_resource type="FontFile" uid="uid://25rgvxvb05m7" path="res://pansyhand.ttf" id="1_qj33n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58fff"]
 content_margin_left = 4.0
@@ -95,7 +95,7 @@ Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 62
-Button/fonts/font = ExtResource("1_i5l60")
+Button/fonts/font = ExtResource("1_qj33n")
 Button/styles/disabled = SubResource("StyleBoxFlat_58fff")
 Button/styles/focus = SubResource("StyleBoxFlat_denhj")
 Button/styles/hover = SubResource("StyleBoxFlat_p1xr3")

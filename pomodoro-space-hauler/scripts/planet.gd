@@ -6,16 +6,13 @@ var resources = []
 var special_features = []
 var hazards = []
 var trade_goods = []
+var color = Color(1, 1, 1)
+var size :float = 1.0 # 0.5 to 1.0
 
-
-func _init(name, cluster, resources = [], special_features = [], hazards = [], trade_goods = []):
-  self.name = name
-  self.cluster = cluster
-  self.resources = resources
-  self.special_features = special_features
-  self.hazards = hazards
-  self.trade_goods = trade_goods
-  print("Planet initialized: " + name)
+func _init(p_name, p_cluster):
+  self.name = p_name
+  self.cluster = p_cluster
+  print("Planet initialized: " + p_name)
 
 func get_name():
   return name
@@ -34,4 +31,7 @@ func get_hazards():
 
 func get_trade_goods():
   return trade_goods
+
+func get_color():
+  return color
   

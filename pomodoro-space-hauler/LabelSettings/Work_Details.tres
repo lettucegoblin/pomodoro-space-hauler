@@ -1,11 +1,11 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://biopj888teyjp"]
 
-[ext_resource type="FontFile" uid="uid://c4ujs4w7b1h6v" path="res://Connection.otf" id="1_q88yn"]
+[ext_resource type="FontFile" uid="uid://25rgvxvb05m7" path="res://pansyhand.ttf" id="1_ws67l"]
 
 [resource]
 line_spacing = 5.0
-font = ExtResource("1_q88yn")
-font_size = 64
+font = ExtResource("1_ws67l")
+font_size = 120
 font_color = Color(0.703993, 0.806947, 0.973464, 1)
 outline_size = 14
 outline_color = Color(0, 0, 0, 1)

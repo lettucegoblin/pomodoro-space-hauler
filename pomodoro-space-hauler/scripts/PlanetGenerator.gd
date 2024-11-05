@@ -48,6 +48,16 @@ func generate_planets(cluster: Cluster, count: int) -> void:
 		planet.special_features = GameManager.random_items(planet_data["special_features"], GameManager.rng.randi_range(1, max_features_per_planet))
 		planet.hazards = GameManager.random_items(planet_data["hazards"], GameManager.rng.randi_range(0, max_hazards_per_planet))
 		planet.trade_goods = GameManager.random_items(planet_data["trade_goods"], GameManager.rng.randi_range(1, max_trade_goods_per_planet))
+		# generate red color from 0.0 to 1.0 based on the number of hazards
+		var redValue = 1.0 - (planet.hazards.size() / max_hazards_per_planet)
+		# generate green color from 0.0 to 1.0 based on the number of resources
+		var greenValue = 1.0 - (planet.resources.size() / max_resources_per_planet)
+		# generate blue color from 0.0 to 1.0 based on the number of trade goods
+		var blueValue = 1.0 - (planet.trade_goods.size() / max_trade_goods_per_planet)
+
+		planet.color = Color(redValue, greenValue, blueValue)
+		# Adjust the size based on the number of special features  
+		planet.size = 0.5 + (0.5 * (planet.special_features.size() / max_features_per_planet))
 		cluster.add_planet(planet)
 
 # Generate clusters based on distribution

@@ -12,6 +12,7 @@ var clusters: Array[Cluster] = []
 var planetGenerator:PlanetGenerator = null
 var selected_route_index: int = -1
 
+var ship_position_index_on_route: int = 0
 
 # Generate initial routes when the Routes class is loaded
 func _init():
@@ -32,20 +33,6 @@ func refresh_routes(num_routes = 5):
 		route.print_route()
 		print("")
 
-	# Generate random routes (example logic)
-	# for route in routes:
-	# 	var start_planet = clusters[randi() % clusters.size()].get_random_planet()
-	# 	var end_planet = clusters[randi() % clusters.size()].get_random_planet()
-		
-	# 	# Each route could be represented as a dictionary with start, end, and distance
-	# 	var route = {
-	# 		"start_planet": start_planet,
-	# 		"end_planet": end_planet,
-	# 		"distance": randi() % 500 + 100, # Random distance between 100-600 units
-	# 		"job_duration": randi() % 10 + 1 # Random job duration (1-10 pomodoros)
-	# 	}
-	# 	routes.append(route)
-
 	# Emit signal to notify any connected nodes that routes have been updated
 	emit_signal("routes_updated", routes)
 
@@ -61,13 +48,21 @@ func generate_galaxy(num_planets = 5, num_clusters = 3):
 	emit_signal("clusters_updated", clusters)
 
 func set_selected_route(selected_route: int):
+	ship_position_index_on_route = 0
 	selected_route_index = selected_route
 	emit_signal("selected_route_updated", selected_route_index)
 
+func get_current_cluster() -> Cluster:
+	if selected_route_index >= 0 and selected_route_index < routes.size():
+		var route = routes[selected_route_index]
+		var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
+		if path.size() > 0:
+			return path[ship_position_index_on_route]
+	return null
 
 func route_detail_str(index: int) -> String:
 	var route = routes[index]
-	return route.starting_planet.get_name() + " -> " + route.ending_planet.get_name() + " (" + str(route.calculate_distance()) + " units)"
+	return route.starting_planet.get_name() + " -> " + route.ending_planet.get_name() + " (" + str(GameManager.routes_manager.ship_position_index_on_route) + '/' + str(route.calculate_distance()) + " units)"
 
 func start_selected_route():
 	# change the scene to the main game scene

@@ -15,12 +15,12 @@ const JOB_COMPLETE_SCENE = "res://scenes/job_complete.tscn"
 
 # Variables to track game state
 var current_job = null
-var current_route = null
 var timer_running = false
 var time_remaining = 0
 var current_interval = WORK_INTERVAL
 var total_cycles = 0
 var completed_cycles = 0
+var completed_routes = []
 var routes_manager = null
 var planetGenerator = null
 
@@ -61,27 +61,26 @@ func _on_routes_updated(updated_routes):
 func get_routes():
 	return routes_manager.get_routes()
 
-func start_job(job_data):
-	# Start a new job with the given data
-	current_job = job_data
-	current_route = job_data.route # Assuming job_data has a route
-	completed_cycles = 0
-	total_cycles = job_data.cycles # Assuming job_data has a total number of cycles
-	timer_running = true
-	current_interval = WORK_INTERVAL
-	time_remaining = current_interval * 60
-	# Emit a signal to notify that a work cycle has started
-	emit_signal("work_cycle_started", current_job)
-	# Transition to work scene
-	transition_to_scene("res://scenes/work_scene.tscn")
-
 func complete_cycle():
 	# Handle completion of work/break cycle
 	if current_interval == WORK_INTERVAL:
 		completed_cycles += 1
-		start_break()  #smart asf
+		# get distance of current route
+		var distance = get_current_route().calculate_distance()
+		# get current position on route
+		var position = routes_manager.ship_position_index_on_route
+
+		if position + 1 >= distance:
+			# Job is complete
+			completed_routes.append(get_current_route())
+			emit_signal("job_completed", current_job)
+			transition_to_scene(JOB_COMPLETE_SCENE)
+		else:
+			# Move to the next position on the route
+			routes_manager.ship_position_index_on_route += 1
+			start_break() # Start a break cycle
 	else:
-		start_work()   #even smarter
+		start_work()
 
 func start_break():
 	# Start a break cycle
@@ -94,14 +93,15 @@ func start_break():
 func start_work():
 	# Start a work cycle
 	current_interval = WORK_INTERVAL
+	completed_cycles = 0
 	time_remaining = current_interval * 60
 	timer_running = true
 	emit_signal("work_cycle_started", WORK_SCENE)
-	#transition_to_scene("res://scenes/work_scene.tscn")
+	transition_to_scene("res://scenes/work_scene.tscn")
 
 func get_current_route():
 	# Return the current route data
-	return current_route
+	return routes_manager.routes[routes_manager.selected_route_index]
 
 func transition_to_scene(scene_name):
 	# Transition to the specified scene
@@ -119,7 +119,7 @@ func save_game_state():
 	# Save the current state to a file
 	var save_data = {
 		"current_job": current_job,
-		"current_route": current_route,
+		"current_route": get_current_route(),
 		"time_remaining": time_remaining,
 		"completed_cycles": completed_cycles
 	}
@@ -137,7 +137,7 @@ func load_game_state():
 		if json_result.error == OK:
 			var save_data = json_result.result
 			current_job = save_data.current_job
-			current_route = save_data.current_route
+			#current_route = save_data.current_route
 			time_remaining = save_data.time_remaining
 			completed_cycles = save_data.completed_cycles
 		file.close()
