@@ -1,15 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4ba0l3547yf5"]
+[gd_scene load_steps=9 format=3 uid="uid://c4ba0l3547yf5"]
 
 [ext_resource type="Script" path="res://scripts/route_management.gd" id="1_2l2af"]
 [ext_resource type="PackedScene" uid="uid://b10uwspyrndjq" path="res://scenes/galaxy_map.tscn" id="1_ugenh"]
 [ext_resource type="Theme" uid="uid://c8jgjff7uxpq8" path="res://theme/RouteManagement.tres" id="2_kp6eq"]
+[ext_resource type="Theme" uid="uid://c3m8lh7e0wmuw" path="res://theme/WelcomeModal.tres" id="4_64li4"]
+[ext_resource type="PackedScene" uid="uid://derc7oreecbi5" path="res://scenes/space_background.tscn" id="4_r0hvm"]
+[ext_resource type="Texture2D" uid="uid://v2w644mls4qi" path="res://assets/welcome-modal.png" id="5_41t11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moqna"]
-bg_color = Color(0.207843, 0.294118, 0.356863, 1)
+bg_color = Color(0.207843, 0.294118, 0.356863, 0)
 
-[sub_resource type="Gradient" id="Gradient_pcu1x"]
-offsets = PackedFloat32Array(0, 0.548872, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.863676, 4.81307e-07, 0.443196, 1, 1, 0.903122, 0.957329, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yralj"]
+texture = ExtResource("5_41t11")
 
 [node name="RouteManagement" type="Control"]
 layout_mode = 3
@@ -23,6 +25,8 @@ script = ExtResource("1_2l2af")
 [node name="CanvasLayer3" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
 layer = 2
 
+[node name="SpaceBackground" parent="CanvasLayer3" instance=ExtResource("4_r0hvm")]
+
 [node name="Panel" type="Panel" parent="CanvasLayer3"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,11 +37,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_moqna")
 
-[node name="ClosedButton" type="Button" parent="CanvasLayer3/Panel"]
-custom_minimum_size = Vector2(80, 80)
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer3/Panel"]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ClosedButton" type="Button" parent="CanvasLayer3/Panel/MarginContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 text = "X"
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." groups=["RouteCanvasLayers"]]
@@ -60,10 +71,28 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("2_kp6eq")
 
-[node name="RouteItemList" type="ItemList" parent="CanvasLayer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Space Ship Routes Available: "
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RouteItemList" type="ItemList" parent="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource("2_kp6eq")
 item_count = 2
 item_0/text = "Planet 1"
@@ -80,6 +109,10 @@ size_flags_horizontal = 4
 theme = ExtResource("2_kp6eq")
 theme_override_constants/separation = 10
 
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Route Info:"
+
 [node name="DistanceLabel" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -88,6 +121,7 @@ text = "Distance"
 
 [node name="FuelConsumptionLabel" type="Label" parent="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme = ExtResource("2_kp6eq")
 text = "Fuel
@@ -106,12 +140,131 @@ layout_mode = 2
 disabled = true
 text = "Start Selected Route"
 
-[node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(-33, -35, 313, -50, 513, -57)
-gradient = SubResource("Gradient_pcu1x")
+[node name="LicenseCanvasLayer" type="CanvasLayer" parent="." groups=["LicenseCanvasLayer", "RouteCanvasLayers"]]
+layer = 20
+visible = false
 
-[connection signal="pressed" from="CanvasLayer3/Panel/ClosedButton" to="." method="_on_closed_button_pressed"]
-[connection signal="item_selected" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_item_selected"]
-[connection signal="mouse_entered" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_entered"]
-[connection signal="mouse_exited" from="CanvasLayer/HBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_exited"]
+[node name="SpaceBackground" parent="LicenseCanvasLayer" instance=ExtResource("4_r0hvm")]
+
+[node name="LicenseIntroModal" type="CenterContainer" parent="LicenseCanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("4_64li4")
+
+[node name="Panel" type="Panel" parent="LicenseCanvasLayer/LicenseIntroModal"]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_yralj")
+
+[node name="MarginContainer" type="MarginContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_kp6eq")
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -20
+theme_override_constants/margin_right = 0
+
+[node name="Label" type="Label" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.921569)
+theme_override_constants/outline_size = 9
+theme_override_font_sizes/font_size = 79
+text = "SPACESHIP HAULER LICENSE"
+horizontal_alignment = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 74
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="ShipNameLabel" type="Label" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "SHIP NAME:"
+
+[node name="ShipNameTextEdit" type="TextEdit" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "The Little Comet"
+placeholder_text = "Enter a ship name."
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="CaptainNameLabel" type="Label" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "CAPTAIN NAME:"
+
+[node name="CaptainNameTextEdit" type="TextEdit" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer3/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Bonnie"
+placeholder_text = "Enter a your name."
+
+[node name="MarginContainer2" type="MarginContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "🚀Welcome Aboard, Captain!🚀"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/Label"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = -7
+theme_override_constants/margin_right = 100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "	Ready to turn some stardust into success? Your ship, The Little Comet, is prepped and waiting. Just get ready to pick a route and we will be off to chase that next big haul!"
+fit_content = true
+
+[node name="SignLicenseButton" type="Button" parent="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sign License and choose Route"
+
+[connection signal="pressed" from="CanvasLayer3/Panel/MarginContainer/ClosedButton" to="." method="_on_closed_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer/RouteItemList" to="." method="_on_route_item_list_item_selected"]
+[connection signal="mouse_entered" from="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/HBoxContainer/MarginContainer2/VBoxContainer/RouteItemList" to="." method="_on_route_item_list_mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/MarginContainer/VBoxContainer2/StartRouteButton" to="." method="_on_start_route_button_pressed"]
+[connection signal="pressed" from="LicenseCanvasLayer/LicenseIntroModal/Panel/MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/VBoxContainer/SignLicenseButton" to="." method="_on_sign_license_button_pressed"]

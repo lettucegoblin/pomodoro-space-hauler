@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c3m8lh7e0wmuw"]
+
+[ext_resource type="FontFile" uid="uid://25rgvxvb05m7" path="res://pansyhand.ttf" id="1_0fqoa"]
+
+[resource]
+default_font = ExtResource("1_0fqoa")
+default_font_size = 36
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/font_sizes/font_size = 28
+Label/fonts/font = ExtResource("1_0fqoa")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)

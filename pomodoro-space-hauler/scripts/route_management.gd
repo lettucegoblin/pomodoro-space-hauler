@@ -17,6 +17,10 @@ func showModal() -> void:
 	var canvas_layers = get_tree().get_nodes_in_group("RouteCanvasLayers")
 	for canvas_layer in canvas_layers:
 		# hide the route manager
+		if GameManager.has_license:
+			if canvas_layer == $LicenseCanvasLayer:
+				canvas_layer.hide()
+				continue
 		canvas_layer.show()
 	resetZoom()
 	%galaxy_map/%GalaxyMapCamera.enabled = true
@@ -44,6 +48,7 @@ func on_routes_updated(routes: Array) -> void:
 
 	for route in routes:
 		print(route.calculate_distance())
+		# 
 		var route_string = route.starting_cluster().get_name() + "(" + route.starting_planet.get_name() + ")" + " -> " + route.ending_cluster().get_name() + "(" + route.ending_planet.get_name() + ")"
 		%RouteItemList.add_item(route_string)
 
@@ -73,3 +78,11 @@ func _on_start_route_button_pressed() -> void:
 
 func _on_closed_button_pressed() -> void:
 	GameManager.HideRouteManager()
+
+
+func _on_sign_license_button_pressed() -> void:
+	GameManager.pilot_name = %CaptainNameTextEdit.text
+	GameManager.ship_name = %ShipNameTextEdit.text
+	GameManager.has_license = true
+	$LicenseCanvasLayer.hide()
+	pass # Replace with function body.

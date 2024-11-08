@@ -1,7 +1,46 @@
-[gd_scene load_steps=3 format=3 uid="uid://bq45cj78xyyua"]
+[gd_scene load_steps=7 format=3 uid="uid://bq45cj78xyyua"]
 
 [ext_resource type="Texture2D" uid="uid://crlnnrg640d62" path="res://assets/star_06.png" id="1_aefhm"]
 [ext_resource type="Script" path="res://scripts/mini_cluster.gd" id="1_e8np5"]
+[ext_resource type="Texture2D" uid="uid://cw3fpq8kk4ptl" path="res://assets/finish-flag.png" id="3_bpon2"]
+
+[sub_resource type="Animation" id="Animation_5sv6b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlagSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_nsm4u"]
+resource_name = "flag_wave"
+length = 1.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FlagSprite2D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.666667, 1.8),
+"transitions": PackedFloat32Array(1.8025, 0.68302, 1.56917),
+"update": 0,
+"values": [0.37001, 0.986111, 0.37001]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hqjen"]
+_data = {
+"RESET": SubResource("Animation_5sv6b"),
+"flag_wave": SubResource("Animation_nsm4u")
+}
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_e8np5")
@@ -9,6 +48,13 @@ script = ExtResource("1_e8np5")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_aefhm")
+
+[node name="FlagSprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1, -9)
+scale = Vector2(0.096875, 0.096875)
+texture = ExtResource("3_bpon2")
+offset = Vector2(0, -247.742)
 
 [node name="Label" type="Label" parent="."]
 offset_left = -20.0
@@ -26,6 +72,12 @@ offset_top = 9.0
 offset_right = 32.0
 offset_bottom = 32.0
 horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hqjen")
+}
+autoplay = "flag_wave"
 
 [connection signal="gui_input" from="Label" to="." method="_on_label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_label_mouse_entered"]

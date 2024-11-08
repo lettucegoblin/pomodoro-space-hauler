@@ -24,6 +24,10 @@ var completed_routes = []
 var routes_manager = null
 var planetGenerator = null
 
+var has_license : bool = false
+var pilot_name : String = "Bonnie"
+var ship_name : String = "The Little Comet"
+
 # Random number generator
 var rng = RandomNumberGenerator.new()
 

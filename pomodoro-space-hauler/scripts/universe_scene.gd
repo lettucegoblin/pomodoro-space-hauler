@@ -75,6 +75,7 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 						continue
 				var cluster_instance = mini_cluster_scene.instantiate()
 				cluster_instance.cluster = cluster_row[i]
+				
 				cluster_row[i].mini_cluster_instance = cluster_instance
 				
 				var path_follower = PathFollow2D.new()   # PathFollow2D is a node that follows a path
@@ -127,9 +128,6 @@ func draw_line_between_clusters(delta: float, cluster1: Cluster, cluster2: Clust
 
 	gradient.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
 
-
-	gradient.offsets = [0, 0.5, 1.0]
-
 	line.gradient = gradient
 	path_lines.append(line)
 	add_child(line)
@@ -142,6 +140,8 @@ func draw_route_path(delta: float) -> void:
 			var cluster1 = path[i]
 			var cluster2 = path[i + 1]
 			draw_line_between_clusters(delta, cluster1, cluster2)
+			if i == path.size() - 2:
+				cluster2.mini_cluster_instance.set_is_destination = true
 
 var time_passed = 0.0
 

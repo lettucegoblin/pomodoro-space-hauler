@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://25rgvxvb05m7" path="res://pansyhand.ttf" id="1_oandx"]
 
 [resource]
-Label/font_sizes/font_size = 22
+Label/font_sizes/font_size = 43
 Label/fonts/font = ExtResource("1_oandx")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10

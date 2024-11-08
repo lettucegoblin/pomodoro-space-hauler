@@ -4,6 +4,8 @@ var cluster: Cluster = null
 var tiny_baby_planets: Array[Variant] = []
 
 var  mini_planet_scene: PackedScene
+var is_destination: bool = false
+var set_is_destination: bool = false
 
 var speed = 1.0 # Speed of movement along the ring
 
@@ -17,6 +19,17 @@ func _ready() -> void:
 	if $Label2.text != "":
 		$Label2.text = $Label2.text.left($Label2.text.length() - 2)
 	spawn_planets()
+	GameManager.routes_manager.connect("selected_route_updated", Callable(self, "on_selected_route_updated"))
+	
+
+func on_selected_route_updated(selected_route_index: int) -> void:
+	if selected_route_index == -1: 
+		return
+	if cluster == GameManager.routes_manager.routes[selected_route_index].ending_cluster():
+		is_destination = true
+	else:
+		is_destination = false
+
 	
 func spawn_planets() -> void:
 	# clear existing planets
@@ -74,6 +87,9 @@ func _process(delta: float) -> void:
 
 		if planet.path_follower is PathFollow2D:
 			planet.path_follower.progress_ratio += delta * speed * ring_speed
+
+	$FlagSprite2D.visible = is_destination
+
 
 
 func _on_label_mouse_entered() -> void:
