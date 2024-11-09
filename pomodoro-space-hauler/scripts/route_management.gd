@@ -49,7 +49,9 @@ func on_routes_updated(routes: Array) -> void:
 	for route in routes:
 		print(route.calculate_distance())
 		# 
-		var route_string = route.starting_cluster().get_name() + "(" + route.starting_planet.get_name() + ")" + " -> " + route.ending_cluster().get_name() + "(" + route.ending_planet.get_name() + ")"
+		# (3 jumps) Alpha Cluster -> Beta Cluster
+		var route_string = "(" + str(route.calculate_distance()) + " jumps) " + route.haul
+		#var route_string = route.starting_cluster().get_name() + "(" + route.starting_planet.get_name() + ")" + " -> " + route.ending_cluster().get_name() + "(" + route.ending_planet.get_name() + ")"
 		%RouteItemList.add_item(route_string)
 
 func _on_route_item_list_mouse_entered() -> void:

@@ -88,6 +88,7 @@ func generate_all_unique_routes() -> Array[Route]:
 						var route = Route.new()
 						route.starting_planet = start_planet
 						route.ending_planet = end_planet
+						route.haul = str(randi_range(1, 10)) + " tons of " + route.starting_planet.get_random_trade_good()
 						all_possible_routes.append(route)
 		
 		return all_possible_routes

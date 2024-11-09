@@ -32,6 +32,9 @@ func get_hazards():
 func get_trade_goods():
   return trade_goods
 
+func get_random_trade_good():
+  return trade_goods[randi() % trade_goods.size()]
+
 func get_color():
   return color
   
