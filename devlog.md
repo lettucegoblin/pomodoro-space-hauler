@@ -70,3 +70,32 @@
 ### 2024-10-22 10hr:
 * Started writing the route management scene that actually shows the routes that had been generated. There's a ListItem node that is used to display the routes. I'm using a signal to update the list item with the route data. I had to separate the galaxy map with a canvaslayer so the zooming of the camera from the galaxy map wouldn't affect the route management scene.
 * Wrote my dev log
+
+### 2024-11-05 6hr:
+* Implemented a recolor shader to allow dynamic adjustment of planet colors based on their attributes (hazards, resources, and trade goods). This enhances the visual distinctiveness of each planet.
+* Updated planet handling to include size and attribute scaling. Larger planets with high hazards or abundant resources now appear proportionally in the scene.
+* Enhanced the UI for route management, introducing a new theme with adjusted font sizes to improve readability. 
+* Added a Welcome Modal theme to onboard players to the game.
+* Imported new assets for the licensed hauler feature, including a badge icon and a certificate screen. 
+
+### 2024-11-08 7hr:
+* Added detailed haul information to routes, displaying trade goods being transported between planets. This gives players a clearer sense of the impact of their trade decisions.
+* Implemented random trade good selection based on planetary resources and demand using weighted probabilities. Testing revealed some rare items appearing more often than expected, but it added charm to gameplay.
+* Began experimenting with new animations for the ship when it enters a planet's orbit. Added subtle engine flare animations for larger hauls.
+
+### 2024-11-09 5hr:
+* Enhanced route management UI with clearer indicators for active and inactive routes. Inactive routes now appear grayed out with a tooltip explaining why they cannot be used.
+* Polished the recolor shader, ensuring smooth transitions when planets change attributes dynamically.
+* Updated the GameManager to include pilot and ship details, allowing customization options that persist between sessions.
+* Updated .gitignore to exclude all build artifacts, reducing repository clutter and preventing accidental commits of local files.
+
+### 2024-11-25 8hr:
+* Added functions for planet size retrieval to standardize planet scaling across the universe scene.
+* Enhanced route management by introducing a system for prioritizing high-value routes, giving players more strategic control over their hauls.
+* Updated UI elements with dynamic resizing to ensure consistency across different screen resolutions.
+* Tested the system with several combinations of trade goods, hazards, and special features. Fixed a bug where high-value routes were occasionally displayed incorrectly.
+* Refined the progress bars used in route display to visually represent route completion, giving players a quick understanding of their progress.
+
+### 2024-11-25 2hr:
+* Updated README to reflect new gameplay features, added attributions for newly imported assets, and documented recent changes in route management and planet handling.
+* Wrote my dev log with the help of ChatGPT.
