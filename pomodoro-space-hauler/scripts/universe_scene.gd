@@ -56,10 +56,13 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 		var resolution = 360
 		for i in range(resolution):
 				var angle = 2 * PI * i / resolution
-				var x = radius * cos(angle)  #wow ok physics moment doobie doobie doo
+				var x = radius * cos(angle) # wow ok physics moment doobie doobie doo
 				var y = radius * sin(angle)
 				curve.add_point(Vector2(x, y))
 				points.append(Vector2(x, y))
+		# add the first point to the end to close the ring
+		curve.add_point(Vector2(radius, 0))
+		points.append(Vector2(radius, 0))
 		
 		ring.curve = curve
 		add_child(ring)
@@ -71,14 +74,14 @@ func create_ring_with_path(radius: float, cluster_row: Array[Cluster], num_clust
 
 		# Now add PathFollow2D for each mini-cluster
 		for i in range(num_clusters):
-				if(cluster_row[i] == null):
+				if (cluster_row[i] == null):
 						continue
 				var cluster_instance = mini_cluster_scene.instantiate()
 				cluster_instance.cluster = cluster_row[i]
 				
 				cluster_row[i].mini_cluster_instance = cluster_instance
 				
-				var path_follower = PathFollow2D.new()   # PathFollow2D is a node that follows a path
+				var path_follower = PathFollow2D.new() # PathFollow2D is a node that follows a path
 				path_follower.rotates = false
 
 				# Place the mini-cluster along the path
@@ -105,14 +108,14 @@ func draw_line_between_clusters(delta: float, cluster1: Cluster, cluster2: Clust
 
 	line.width = 1
 	line.points = [
-		cluster1.mini_cluster_instance.global_position, 
+		cluster1.mini_cluster_instance.global_position,
 		cluster1.mini_cluster_instance.global_position / 2 + cluster2.mini_cluster_instance.global_position / 2,
 		cluster2.mini_cluster_instance.global_position
 		]
 	
 	var gradient = Gradient.new()
-	var color_val = (sin(time_passed * 5.2) + 1) / 2  # oscillates between 0 and 1
-	var phase_shift = 2 * PI / 3  # A phase shift to create the rotating effect
+	var color_val = (sin(time_passed * 5.2) + 1) / 2 # oscillates between 0 and 1
+	var phase_shift = 2 * PI / 3 # A phase shift to create the rotating effect
 
 	# Define each color phase based on shifted sine waves
 	var red = (sin(time_passed * 5.2) + 1) / 2
@@ -121,9 +124,9 @@ func draw_line_between_clusters(delta: float, cluster1: Cluster, cluster2: Clust
 
 	# Organize the colors based on the rotation effect you want
 	gradient.colors = PackedColorArray([
-		Color(red, yellow, 0),    # First gradient point: red, yellow, green
-		Color(green, red, 0),     # Second gradient point: green, red, yellow
-		Color(yellow, green, 0),  # Third gradient point: yellow, green, red
+		Color(red, yellow, 0), # First gradient point: red, yellow, green
+		Color(green, red, 0), # Second gradient point: green, red, yellow
+		Color(yellow, green, 0), # Third gradient point: yellow, green, red
 	])
 
 	gradient.offsets = PackedFloat32Array([0.0, 0.5, 1.0])
@@ -157,4 +160,3 @@ func _physics_process(delta):
 
 	if selected_route_index >= 0:
 		draw_route_path(delta)
-	

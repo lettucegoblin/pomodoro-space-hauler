@@ -21,6 +21,9 @@ func _ready() -> void:
 	spawn_planets()
 	GameManager.routes_manager.connect("selected_route_updated", Callable(self, "on_selected_route_updated"))
 	
+func show_planet_labels(show: bool) -> void:
+	for planet in tiny_baby_planets:
+		planet.planet_instance.show_name_label(show)
 
 func on_selected_route_updated(selected_route_index: int) -> void:
 	if selected_route_index == -1: 
@@ -93,14 +96,12 @@ func _process(delta: float) -> void:
 
 
 func _on_label_mouse_entered() -> void:
-	for planet in tiny_baby_planets:
-		planet.planet_instance.show_name_label(true)
+	show_planet_labels(true)
 	#$Label2.visible = true
 
 
 func _on_label_mouse_exited() -> void:
-	for planet in tiny_baby_planets:
-		planet.planet_instance.show_name_label(false)
+	show_planet_labels(false)
 	#$Label2.visible = false
 
 

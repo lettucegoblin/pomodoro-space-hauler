@@ -7,11 +7,12 @@ signal timer_updated
 signal job_completed
 
 # Constants for work and break intervals
-const WORK_INTERVAL = 25
-const BREAK_INTERVAL = 5
+var WORK_INTERVAL = 25
+var BREAK_INTERVAL = 5
 const BREAK_SCENE = "res://scenes/break_scene.tscn"
 const WORK_SCENE = "res://scenes/work_scene.tscn"
 const JOB_COMPLETE_SCENE = "res://scenes/job_complete.tscn"
+const MAIN_MENU_SCENE = "res://scenes/main_menu.tscn"
 
 # Variables to track game state
 var current_job = null
@@ -24,6 +25,8 @@ var completed_routes = []
 var routes_manager = null
 var planetGenerator = null
 
+var timer_multiplier : float = 1.0
+
 var has_license : bool = false
 var pilot_name : String = "Bonnie"
 var ship_name : String = "The Little Comet"
@@ -34,6 +37,35 @@ var rng = RandomNumberGenerator.new()
 
 # Probably dont need to export with a headless script but whatever
 @export var debug: bool = true
+
+func reset_game():
+	# Reset the game state
+	current_job = null
+	timer_running = false
+	time_remaining = 0
+	current_interval = WORK_INTERVAL
+	total_cycles = 0
+	completed_cycles = 0
+	completed_routes = []
+	has_license = false
+	pilot_name = "Bonnie"
+	ship_name = "The Little Comet"
+	rng = RandomNumberGenerator.new()
+
+func workLabelDetails():
+	# Pilot name, ship name 
+	# hauling, from, to, distance
+	# current system info
+	var current_route = get_current_route()
+	var str = pilot_name + " in " + ship_name + "\n"
+	str += "Hauling " + current_route.haul + "\n"
+	str += "From " + current_route.starting_planet.get_name() + " to " + current_route.ending_planet.get_name() + "\n"
+	str += "Distance: " + str(current_route.calculate_distance() - 1) + " units"
+	return str
+
+func show_main_menu():
+	# Transition to the main menu scene
+	transition_to_scene(MAIN_MENU_SCENE)
 
 # Hide route manager autoload instance
 func HideRouteManager():
@@ -55,7 +87,6 @@ func start_timer_work():
 	time_remaining = WORK_INTERVAL * 60
 	timer_running = true # TODO: Have a proper start/stop
 
-
 # Example handler for when routes are updated (optional)
 func _on_routes_updated(updated_routes):
 	#print("Routes updated:", updated_routes)
@@ -75,31 +106,37 @@ func complete_cycle():
 		var position = routes_manager.ship_position_index_on_route
 
 		if position + 1 >= distance:
+			get_current_route().completed = true
 			# Job is complete
 			completed_routes.append(get_current_route())
 			emit_signal("job_completed", current_job)
-			transition_to_scene(JOB_COMPLETE_SCENE)
+			start_break()
+			#transition_to_scene(JOB_COMPLETE_SCENE)
 		else:
 			# Move to the next position on the route
 			routes_manager.ship_position_index_on_route += 1
 			start_break() # Start a break cycle
-	else:
-		start_work()
+	else: # Break cycle
+		if not get_current_route().completed: # If the job is not complete
+			start_work()
 
 func start_break():
 	# Start a break cycle
 	current_interval = BREAK_INTERVAL
 	time_remaining = current_interval * 60
-	timer_running = true
+	
 	emit_signal("break_cycle_started", BREAK_SCENE)
 	#transition_to_scene("res://scenes/break_scene.tscn")
+
+func start_timer():
+	# Start the timer
+	timer_running = true
 
 func start_work():
 	# Start a work cycle
 	current_interval = WORK_INTERVAL
 	completed_cycles = 0
 	time_remaining = current_interval * 60
-	timer_running = true
 	emit_signal("work_cycle_started", WORK_SCENE)
 	transition_to_scene("res://scenes/work_scene.tscn")
 
@@ -149,9 +186,8 @@ func load_game_state():
 func _process(delta):
 	# Update the timer if it is running
 	if timer_running:
-		time_remaining -= delta
+		time_remaining -= delta * timer_multiplier
 		# Emit signal to update any timer display in the UI
-		print(time_remaining)
 		emit_signal("timer_updated", time_remaining)
 		if time_remaining <= 0:
 			timer_running = false
@@ -176,6 +212,6 @@ func random_items(array: Array, count: int):
 		else:
 			collisons += 1
 		if collisons > 100:
-			print("Broke after 100 tries")  #oof
+			printerr("Broke after 100 tries")  #oof
 			break
 	return selected

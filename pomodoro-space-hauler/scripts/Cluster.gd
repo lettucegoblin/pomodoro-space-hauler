@@ -19,6 +19,34 @@ func _init(name: String, planets: Array[Planet] = []):
 	self.planets = planets
 	print("Cluster initialized: " + name)
 
+func get_all_resources() -> Array[String]:
+	var all_resources: Array[String] = []
+	for planet in planets:
+		all_resources.append_array(planet.get_resources())
+	return all_resources
+
+func get_all_special_features() -> Array[String]:
+	var all_special_features: Array[String] = []
+	for planet in planets:
+		all_special_features.append_array(planet.get_special_features())
+	return all_special_features
+
+func get_all_hazards() -> Array[String]:
+	var all_hazards: Array[String] = []
+	for planet in planets:
+		all_hazards.append_array(planet.get_hazards())
+	return all_hazards
+
+func get_all_trade_goods() -> Array[String]:
+	var all_trade_goods: Array[String] = []
+	for planet in planets:
+		all_trade_goods.append_array(planet.get_trade_goods())
+	return all_trade_goods
+
+
+
+
+
 func add_planet(planet: Planet):
 	planets.append(planet)
 

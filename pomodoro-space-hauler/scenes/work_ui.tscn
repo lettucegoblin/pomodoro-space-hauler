@@ -1,11 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://bj85ck3km0lll"]
+[gd_scene load_steps=9 format=3 uid="uid://bj85ck3km0lll"]
 
 [ext_resource type="Script" path="res://scripts/work_ui.gd" id="1_m8eme"]
 [ext_resource type="LabelSettings" uid="uid://cxycfsfvncgdx" path="res://LabelSettings/Timer.tres" id="1_rm3r7"]
 [ext_resource type="LabelSettings" uid="uid://biopj888teyjp" path="res://LabelSettings/Work_Details.tres" id="2_3xbik"]
 [ext_resource type="Script" path="res://scripts_debugs/set_to_2_seconds.gd" id="3_ob58d"]
+[ext_resource type="FontFile" uid="uid://c4ujs4w7b1h6v" path="res://Connection.otf" id="4_0gt4p"]
 
-[sub_resource type="Theme" id="Theme_exxuh"]
+[sub_resource type="Theme" id="Theme_efp8q"]
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 20
+MarginContainer/constants/margin_right = 20
+MarginContainer/constants/margin_top = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_6mas2"]
+font = ExtResource("4_0gt4p")
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_ldtsa"]
 
 [node name="WorkUI" type="Control"]
 layout_mode = 3
@@ -14,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_efp8q")
 script = ExtResource("1_m8eme")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -35,25 +47,85 @@ size_flags_horizontal = 4
 text = "1234"
 label_settings = ExtResource("1_rm3r7")
 
-[node name="SetTo2Seconds" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="SetTo2Seconds" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Set to 2s"
+size_flags_horizontal = 8
+text = "Debug: Set to 2s"
 script = ExtResource("3_ob58d")
 
-[node name="WorkLabelDetails" type="Label" parent="VBoxContainer"]
+[node name="FastTimerButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Debug: Fast Timer"
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Debug: Main Menu"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HeaderLabel" type="Label" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Bonnie in The Little Comet"
+label_settings = SubResource("LabelSettings_6mas2")
+autowrap_mode = 3
+
+[node name="WorkLabelDetails" type="Label" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 10
-text = "Details:"
+text = "Hauling 4 tons of Alien Artifacts
+From Aethereia-Prime to Rigel V
+Distance: 5 units"
 label_settings = ExtResource("2_3xbik")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/WorkLabelDetails"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_exxuh")
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/SetTo2Seconds" to="VBoxContainer/HBoxContainer/SetTo2Seconds" method="_on_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SystemInfoLabel" type="Label" parent="VBoxContainer/HBoxContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(471, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Current Cluster: Auriga
+Resources: Tungsten, Iron, Cobalt
+Special Features: Volcanic Archipelagos, Lava Harvesting Plants, Lava Harvesting Plants, Asteroid Rings
+Hazards: Lava Flows, Pirate Activity
+Trade Goods: Wind Energy Turbines, Exotic Pets, Exotic Pets, Luxury Goods"
+label_settings = SubResource("LabelSettings_ldtsa")
+autowrap_mode = 3
+
+[connection signal="pressed" from="VBoxContainer/SetTo2Seconds" to="VBoxContainer/SetTo2Seconds" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/FastTimerButton" to="VBoxContainer/SetTo2Seconds" method="_on_fast_timer_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenuButton" to="VBoxContainer/SetTo2Seconds" method="_on_main_menu_button_pressed"]

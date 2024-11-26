@@ -37,4 +37,7 @@ func get_random_trade_good():
 
 func get_color():
   return color
+
+func get_size() -> float:
+  return size
   

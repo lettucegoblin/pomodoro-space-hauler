@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj0b23ghevl7g"]
+[gd_scene load_steps=6 format=3 uid="uid://cj0b23ghevl7g"]
 
 [ext_resource type="Script" path="res://scripts/work_scene.gd" id="1_il8w6"]
 [ext_resource type="PackedScene" uid="uid://derc7oreecbi5" path="res://scenes/space_background.tscn" id="1_tf5s4"]
 [ext_resource type="PackedScene" uid="uid://dktwhn2ivy0nr" path="res://scenes/space_ship.tscn" id="2_bd3kr"]
 [ext_resource type="PackedScene" uid="uid://bj85ck3km0lll" path="res://scenes/work_ui.tscn" id="3_yrxka"]
+[ext_resource type="Texture2D" uid="uid://c0pof7ga1bl6g" path="res://assets/WorkMode.png" id="5_anpyt"]
 
 [node name="WorkScene" type="Control"]
 layout_mode = 3
@@ -16,6 +17,10 @@ script = ExtResource("1_il8w6")
 
 [node name="SpaceBackground" parent="." instance=ExtResource("1_tf5s4")]
 layout_mode = 1
+
+[node name="cluster_container" type="Node2D" parent="."]
+position = Vector2(391, 230)
+scale = Vector2(4, 4)
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -35,3 +40,8 @@ scale = Vector2(0.5, 0.5)
 
 [node name="WorkUI" parent="." instance=ExtResource("3_yrxka")]
 layout_mode = 1
+
+[node name="WorkMode" type="Sprite2D" parent="."]
+position = Vector2(108, 42)
+scale = Vector2(0.21, 0.21)
+texture = ExtResource("5_anpyt")

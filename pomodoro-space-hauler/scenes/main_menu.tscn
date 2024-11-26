@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnhfaeuhyvghw"]
+[gd_scene load_steps=5 format=3 uid="uid://bnhfaeuhyvghw"]
 
 [ext_resource type="Texture2D" uid="uid://bo884slbcm4bb" path="res://assets/main_menu.png" id="1_qelo2"]
 [ext_resource type="Script" path="res://scripts/main_menu_buttons.gd" id="1_uhbm7"]
 [ext_resource type="Theme" uid="uid://d10hqjyhkv815" path="res://theme/main_menu.tres" id="2_yfalp"]
+[ext_resource type="Script" path="res://scenes/options_button.gd" id="4_4is5o"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -47,12 +48,62 @@ text = "Start"
 layout_mode = 2
 theme = ExtResource("2_yfalp")
 text = "Options"
+script = ExtResource("4_4is5o")
+
+[node name="OptionsPanelContainer" type="PanelContainer" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/OptionsPanelContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " Pomodoro Work: "
+
+[node name="WorkSpinBoxMin" type="SpinBox" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1000.0
+suffix = "m"
+
+[node name="WorkSpinBoxSec" type="SpinBox" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+max_value = 59.0
+suffix = "s"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = " Pomodoro Break:"
+
+[node name="BreakSpinBoxMin" type="SpinBox" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1000.0
+suffix = "m"
+
+[node name="BreakSpinBoxSec" type="SpinBox" parent="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer2"]
+visible = false
+layout_mode = 2
+max_value = 59.0
+suffix = "s"
 
 [node name="CreditsButton" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_yfalp")
 theme_override_font_sizes/font_size = 32
-text = "Credits"
+text = "Credits(disabled)"
 
 [node name="DebugContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -71,5 +122,10 @@ layout_mode = 2
 text = "Route Manager"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/OptionsButton" to="CenterContainer/VBoxContainer/OptionsButton" method="_on_pressed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer/WorkSpinBoxMin" to="CenterContainer/VBoxContainer/OptionsButton" method="_on_work_spin_box_min_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer/WorkSpinBoxSec" to="CenterContainer/VBoxContainer/OptionsButton" method="_on_work_spin_box_sec_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer2/BreakSpinBoxMin" to="CenterContainer/VBoxContainer/OptionsButton" method="_on_break_spin_box_min_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/OptionsPanelContainer/VBoxContainer/HBoxContainer2/BreakSpinBoxSec" to="CenterContainer/VBoxContainer/OptionsButton" method="_on_break_spin_box_sec_value_changed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/DebugContainer/GalaxyButton" to="." method="_on_galaxy_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/DebugContainer/RouteManageButton" to="." method="_on_route_manage_button_pressed"]

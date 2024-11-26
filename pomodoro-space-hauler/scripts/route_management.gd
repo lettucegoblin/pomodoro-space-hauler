@@ -50,7 +50,7 @@ func on_routes_updated(routes: Array) -> void:
 		print(route.calculate_distance())
 		# 
 		# (3 jumps) Alpha Cluster -> Beta Cluster
-		var route_string = "(" + str(route.calculate_distance()) + " jumps) " + route.haul
+		var route_string = "(" + str(route.calculate_distance() - 1) + " jumps) " + route.haul
 		#var route_string = route.starting_cluster().get_name() + "(" + route.starting_planet.get_name() + ")" + " -> " + route.ending_cluster().get_name() + "(" + route.ending_planet.get_name() + ")"
 		%RouteItemList.add_item(route_string)
 
@@ -74,9 +74,8 @@ func _on_route_item_list_item_selected(index: int) -> void:
 
 func _on_start_route_button_pressed() -> void:
 	print("Start Route Button Pressed")
-	#GameManager.routes_manager.start_selected_route()
-	GameManager.start_work()
-	GameManager.HideRouteManager()
+	GameManager.routes_manager.start_selected_route()
+	GameManager.start_timer()
 
 func _on_closed_button_pressed() -> void:
 	GameManager.HideRouteManager()
@@ -86,5 +85,6 @@ func _on_sign_license_button_pressed() -> void:
 	GameManager.pilot_name = %CaptainNameTextEdit.text
 	GameManager.ship_name = %ShipNameTextEdit.text
 	GameManager.has_license = true
+	%RouteInfoLabel.text += GameManager.pilot_name
 	$LicenseCanvasLayer.hide()
 	pass # Replace with function body.

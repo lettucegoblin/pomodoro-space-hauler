@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjboidt3ho2m8"]
+[gd_scene load_steps=8 format=3 uid="uid://cjboidt3ho2m8"]
 
 [ext_resource type="PackedScene" uid="uid://derc7oreecbi5" path="res://scenes/space_background.tscn" id="1_g4f3s"]
 [ext_resource type="Script" path="res://scripts/break_scene.gd" id="1_t4yg1"]
 [ext_resource type="PackedScene" uid="uid://dktwhn2ivy0nr" path="res://scenes/space_ship.tscn" id="3_473yb"]
+[ext_resource type="PackedScene" uid="uid://blvv4mss3805s" path="res://scenes/job_complete.tscn" id="5_n8evq"]
+[ext_resource type="PackedScene" uid="uid://bj85ck3km0lll" path="res://scenes/work_ui.tscn" id="5_o7qtu"]
 [ext_resource type="PackedScene" uid="uid://dyifd00kn7di7" path="res://scenes/break_ui.tscn" id="5_p0fcy"]
+[ext_resource type="Texture2D" uid="uid://bdn37yey6jfhv" path="res://assets/BreakMode.png" id="7_kfgwx"]
 
 [node name="BreakScene" type="Control"]
 layout_mode = 3
@@ -25,10 +28,26 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="planet_container" type="Node2D" parent="."]
-position = Vector2(891, 314)
+position = Vector2(340, 120)
+
+[node name="cluster_container" type="Node2D" parent="."]
+position = Vector2(391, 230)
+scale = Vector2(4, 4)
 
 [node name="space_ship" parent="." instance=ExtResource("3_473yb")]
 position = Vector2(-200, 370)
 
 [node name="BreakUI" parent="." instance=ExtResource("5_p0fcy")]
+visible = false
 layout_mode = 1
+
+[node name="WorkUI" parent="." instance=ExtResource("5_o7qtu")]
+layout_mode = 1
+
+[node name="job_complete" parent="." instance=ExtResource("5_n8evq")]
+layout_mode = 1
+
+[node name="BreakMode" type="Sprite2D" parent="."]
+position = Vector2(148, 39)
+scale = Vector2(0.289668, 0.289668)
+texture = ExtResource("7_kfgwx")

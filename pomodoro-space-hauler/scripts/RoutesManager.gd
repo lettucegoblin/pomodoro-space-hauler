@@ -11,17 +11,18 @@ var all_possible_routes: Array[Route] = []
 var clusters: Array[Cluster] = []
 var planetGenerator:PlanetGenerator = null
 var selected_route_index: int = -1
+var num_planets = 20
+var num_clusters = 15
+var num_routes = 5
 
 var ship_position_index_on_route: int = 0
 
 # Generate initial routes when the Routes class is loaded
 func _init():
 	planetGenerator = load("res://scripts/PlanetGenerator.gd").new()
-	generate_galaxy(20, 6)
-	refresh_routes()
+	generate_galaxy(num_planets, num_clusters)
+	refresh_routes(num_routes)
 	
-	
-
 # Function to generate new routes
 func refresh_routes(num_routes = 5):
 	# Clear existing routes
@@ -29,9 +30,6 @@ func refresh_routes(num_routes = 5):
 	var r = GameManager.random_items(all_possible_routes, num_routes)
 	for route in r:
 		routes.append(route as Route)
-	for route in routes:
-		route.print_route()
-		print("")
 
 	# Emit signal to notify any connected nodes that routes have been updated
 	emit_signal("routes_updated", routes)
@@ -56,7 +54,7 @@ func get_current_cluster() -> Cluster:
 	if selected_route_index >= 0 and selected_route_index < routes.size():
 		var route = routes[selected_route_index]
 		var path = route.find_path_between_planets(route.starting_planet, route.ending_planet)
-		if path.size() > 0:
+		if path.size() > 0 && ship_position_index_on_route < path.size():
 			return path[ship_position_index_on_route]
 	return null
 
@@ -66,13 +64,22 @@ func route_detail_str(index: int) -> String:
 
 func start_selected_route():
 	# change the scene to the main game scene
-	GameManager.transition_to_scene("res://scenes/work_scene.tscn")
+	if GameManager.current_interval == GameManager.WORK_INTERVAL:
+		GameManager.start_work() # we're at the main menu, need to start work
+	
+	GameManager.HideRouteManager()
+	#GameManager.transition_to_scene("res://scenes/work_scene.tscn")
 
 func get_all_planets() -> Array[Planet]:
 		var all_planets: Array[Planet] = []
 		for cluster in clusters:
 				all_planets.append_array(cluster.get_planets())
 		return all_planets
+
+func get_current_route() -> Route:
+	if selected_route_index >= 0 and selected_route_index < routes.size():
+		return routes[selected_route_index]
+	return null
 
 func generate_all_unique_routes() -> Array[Route]:
 		var all_planets = get_all_planets()
@@ -83,6 +90,9 @@ func generate_all_unique_routes() -> Array[Route]:
 				for j in range(i + 1, all_planets.size()):
 						var start_planet = all_planets[i]
 						var end_planet = all_planets[j]
+
+						if start_planet.cluster == end_planet.cluster:
+							continue # Skip routes between planets in the same cluster
 						
 						# Create a new Route and add it to the routes list
 						var route = Route.new()
@@ -92,7 +102,6 @@ func generate_all_unique_routes() -> Array[Route]:
 						all_possible_routes.append(route)
 		
 		return all_possible_routes
-
 
 # Function to get current routes
 func get_routes():

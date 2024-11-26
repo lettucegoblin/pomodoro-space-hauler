@@ -4,6 +4,7 @@ var starting_planet: Planet
 var ending_planet: Planet
 
 var haul : String = ""
+var completed : bool = false
 
 func starting_cluster() -> Cluster:
 	return starting_planet.get_cluster()
@@ -13,7 +14,7 @@ func ending_cluster() -> Cluster:
 
 func calculate_distance() -> int:
 	var path = find_path_between_planets(starting_planet, ending_planet)
-	return path.size() - 1
+	return path.size()
 
 func print_route():
 	print("Route from " + starting_planet.get_name() + " to " + ending_planet.get_name())

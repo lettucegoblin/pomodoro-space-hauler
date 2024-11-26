@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://blvv4mss3805s"]
+[gd_scene load_steps=4 format=3 uid="uid://blvv4mss3805s"]
 
 [ext_resource type="Script" path="res://scripts/job_complete.gd" id="1_jcws1"]
+[ext_resource type="Theme" uid="uid://c8jgjff7uxpq8" path="res://theme/RouteManagement.tres" id="2_g30rs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_81ek5"]
+bg_color = Color(0.342021, 0.634696, 0.821114, 1)
 
 [node name="job_complete" type="Control"]
 layout_mode = 3
@@ -9,40 +13,59 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 script = ExtResource("1_jcws1")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -56.0
+offset_right = 74.5
+offset_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme = ExtResource("2_g30rs")
+theme_override_styles/panel = SubResource("StyleBoxFlat_81ek5")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 132
 text = "Job Complete"
 horizontal_alignment = 1
 
-[node name="RouteDetailsLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="RouteDetailsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 64
 text = "Route Details Label"
 horizontal_alignment = 1
 
-[node name="CompletedJobsLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="CompletedJobsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 54
 text = "0"
 horizontal_alignment = 1
 
-[node name="ChooseNewJobButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="ChooseNewJobButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Choose New Job"
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/ChooseNewJobButton" to="." method="_on_choose_new_job_button_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ChooseNewJobButton" to="." method="_on_choose_new_job_button_pressed"]

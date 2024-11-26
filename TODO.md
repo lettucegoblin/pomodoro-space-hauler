@@ -13,3 +13,4 @@
 [] add option to change the work and break times
 
 # work screen, show minimap with tiny ship progress
+

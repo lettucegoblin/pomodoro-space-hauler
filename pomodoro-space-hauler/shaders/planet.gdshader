@@ -84,7 +84,7 @@ void fragment() {
         vec3 shadow_blend = mix(final_color.rgb, shadow_color.rgb, shadow_transparency * (1.0 - light_intensity));
 
         // Apply final lighting and shadow (combine rim light and thin rim light)
-        final_color.rgb = shadow_blend + final_color.rgb * clamp(light_intensity + rim_light + thin_rim, 0.0, 1.0);
+        final_color.rgb = mix(shadow_blend, final_color.rgb, 0.5) * clamp(light_intensity + rim_light + thin_rim, 0.2, 0.9);
 
         COLOR = final_color; // Use the final color with lighting applied
     } else {

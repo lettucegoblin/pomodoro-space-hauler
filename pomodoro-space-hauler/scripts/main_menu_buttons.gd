@@ -6,6 +6,7 @@ func _ready() -> void:
 	GameManager.HideRouteManager()
 	
 func start() -> void:
+	GameManager.reset_game()
 	GameManager.ShowRouteManager()
 	#get_tree().change_scene_to_file("res://scenes/work_scene.tscn")
 	#GameManager.start_work()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyfxx6y54igw5"]
+[gd_scene load_steps=7 format=3 uid="uid://dyfxx6y54igw5"]
 
 [ext_resource type="Script" path="res://scripts/planet_scene.gd" id="1_af5ct"]
 [ext_resource type="Shader" path="res://shaders/planet.gdshader" id="1_hxsbu"]
@@ -15,26 +15,21 @@ noise = SubResource("FastNoiseLite_isg10")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1nvx7"]
 shader = ExtResource("1_hxsbu")
 shader_parameter/planet_size = 1.0
-shader_parameter/planet_color = Color(1, 1, 0, 1)
-shader_parameter/water_color = Color(0.513726, 0.8, 0, 1)
-shader_parameter/shadow_color = Color(0, 0, 0.2, 1)
-shader_parameter/shadow_transparency = 0.43
+shader_parameter/planet_color = Color(0.879583, 0.512808, 0.785234, 1)
+shader_parameter/water_color = Color(0.445138, 0.272316, 0.519658, 1)
+shader_parameter/shadow_color = Color(0.325243, 0.0893648, 0.34815, 1)
+shader_parameter/shadow_transparency = 1.0
 shader_parameter/land_water_threshold = 0.5
 shader_parameter/noise_scale = Vector2(1, 1)
 shader_parameter/scroll_direction = Vector2(1, 0.01)
 shader_parameter/scroll_speed = 0.1
 shader_parameter/light_angle = 178.498
 shader_parameter/day_night_cycle_speed = 0.615
-shader_parameter/rim_light_intensity = 0.429
+shader_parameter/rim_light_intensity = 0.0
 shader_parameter/thin_rim_intensity = 0.2
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_fw6r3")
 
-[sub_resource type="LabelSettings" id="LabelSettings_50j7t"]
-outline_size = 5
-outline_color = Color(0, 0, 0, 1)
-
 [node name="Planet" type="Node2D"]
-position = Vector2(100, 100)
 script = ExtResource("1_af5ct")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -55,7 +50,5 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "name"
-label_settings = SubResource("LabelSettings_50j7t")
 horizontal_alignment = 1
 vertical_alignment = 1
-metadata/_edit_use_anchors_ = true

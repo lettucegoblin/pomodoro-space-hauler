@@ -6,6 +6,7 @@
 default_font = ExtResource("1_0fqoa")
 default_font_size = 36
 Label/colors/font_color = Color(0, 0, 0, 1)
-Label/font_sizes/font_size = 28
+Label/font_sizes/font_size = 29
 Label/fonts/font = ExtResource("1_0fqoa")
 RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+TextEdit/font_sizes/font_size = 60
